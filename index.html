@@ -90,25 +90,36 @@
             document.getElementById('order-modal').style.display = 'none';
         }
 
-        async function sendOrder(e) {
-            e.preventDefault();
-            const product = document.getElementById('order-product').value;
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            const city = document.getElementById('cust-city').value;
+ async function sendOrder(e) {
+    e.preventDefault();
+    const product = document.getElementById('order-product').value;
+    const name = document.getElementById('cust-name').value;
+    const phone = document.getElementById('cust-phone').value;
+    const city = document.getElementById('cust-city').value;
 
-            const message = `🏎️ *НОВЕ ЗАМОВЛЕННЯ!*\n\n📦 *Товар:* ${product}\n👤 *Клієнт:* ${name}\n📞 *Тел:* ${phone}\n📍 *Доставка:* ${city}`;
+    const message = `🏎️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
 
-            try {
-                const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TG_CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TG_CHAT_ID,
+                text: message
+            })
+        });
+
+        if (response.ok) {
+            alert('Дякуємо! Замовлення успішно відправлено.');
+            closeModal();
+            document.getElementById('order-form').reset();
+        } else {
+            alert('Помилка відправки в Telegram.');
+        }
+    } catch (err) {
+        alert('Помилка мережі. Спробуйте ще раз.');
+    }
+}
 
                 if (response.ok) {
                     alert('Дякуємо! Замовлення успішно відправлено.');
