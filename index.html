@@ -27,19 +27,19 @@
             <h3>Оформлення замовлення</h3>
             <p id="modal-product-name"></p>
             
-           <form id="order-form" onsubmit="sendOrder(event)">
-    <input type="hidden" id="order-product">
-    <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
-<input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
-<input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-    <button type="submit" class="btn-submit">Підтвердити замовлення</button>
-</form>
+            <form id="order-form" onsubmit="sendOrder(event)">
+                <input type="hidden" id="order-product">
+                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
+                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                <button type="submit" class="btn-submit">Підтвердити замовлення</button>
+            </form>
         </div>
     </div>
 
     <script>
         const TG_CHAT_ID = '1984162843';
-        const TG_BOT_TOKEN = '8504591879:AAFNv-Bga_d7eo0gCGYu5aEdbCjCB760zSG';
+        const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
 
         function handleData(json) {
             const rows = json.table.rows;
