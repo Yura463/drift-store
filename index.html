@@ -48,26 +48,28 @@
             
             container.innerHTML = '';
 
-            if (!rows || rows.length <= 1) {
+            if (!rows || rows.length === 0) {
                 container.innerHTML = '<p>Немає товарів у таблиці.</p>';
                 return;
             }
 
-            for (let i = 1; i < rows.length; i++) {
+            for (let i = 0; i < rows.length; i++) {
                 const row = rows[i].c;
                 if (!row) continue;
 
-                const name = row[0] && row[0].v ? row[0].v : 'RC Drift Car 1:24';
-                const price = row[1] && row[1].v !== null ? row[1].v : '1200';
+                // Перевірка заголовків
+                const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
+                if (firstVal === 'name' || firstVal === 'назва') continue;
+
+                const name = row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24';
+                const price = row[1] && row[1].v !== null ? row[1].v : '0';
                 const image = row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300';
-                const desc = row[3] && row[3].v ? row[3].v : '';
 
                 container.innerHTML += `
                     <div class="product-card">
                         <img src="${image}" alt="${name}">
                         <div class="product-info">
                             <h3 class="product-title">${name}</h3>
-                            ${desc ? `<p class="product-desc">${desc}</p>` : ''}
                             <div class="product-bottom">
                                 <span class="product-price">${price} грн</span>
                                 <button class="btn-buy" onclick="openModal('${name}', '${price}')">Замовити</button>
@@ -120,6 +122,6 @@
             }
         }
     </script>
-<script src="https://docs.google.com/spreadsheets/d/167qfhxHQyz7JOUv6m6WnOIo8VSXKnAhBxBiTUsUTr7w/gviz/tq?tqx=responseHandler:handleData"></script>
+    <script src="https://docs.google.com/spreadsheets/d/167qfhxHQyz7JOUv6m6WnOIo8VSXKnAhBxBiTUsUTr7w/gviz/tq?tqx=responseHandler:handleData"></script>
 </body>
 </html>
