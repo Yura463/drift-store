@@ -1,86 +1,125 @@
-<script>
-    const TG_CHAT_ID = '1984162843';
-    const TG_BOT_TOKEN = '8504591879:AAFNv-Bga_d7eo0gCGYu5aEdbCjCB760zSG';
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift RC Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    // Обробка даних з вашої Google Таблиці
-    function handleData(json) {
-        const rows = json.table.rows;
-        const container = document.getElementById('products-container');
-        if (!container) return;
-        
-        container.innerHTML = '';
+    <header>
+        <h1>Drift RC Store</h1>
+        <p>Радіокеровані дрифт-машинки 1:24</p>
+    </header>
 
-        if (!rows || rows.length <= 1) {
-            container.innerHTML = '<p>Немає товарів у таблиці.</p>';
-            return;
-        }
+    <main>
+        <h2>Каталог товарів</h2>
+        <div id="products-container" class="products-grid">
+            <p>Завантаження товарів...</p>
+        </div>
+    </main>
 
-        // Зчитуємо рядки з таблиці (пропускаємо заголовок)
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i].c;
-            if (!row) continue;
+    <!-- Модальне вікно замовлення -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3>Оформлення замовлення</h3>
+            <p id="modal-product-name"></p>
+            
+            <form id="order-form" onsubmit="sendOrder(event)">
+                <input type="hidden" id="order-product">
+                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
+                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                <button type="submit" class="btn-submit">Підтвердити замовлення</button>
+            </form>
+        </div>
+    </div>
 
-            const name = row[0] && row[0].v ? row[0].v : 'RC Drift Car 1:24';
-            const price = row[1] && row[1].v !== null ? row[1].v : '1200';
-            const image = row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300';
-            const desc = row[3] && row[3].v ? row[3].v : '';
+    <script>
+        const TG_CHAT_ID = '1984162843';
+        const TG_BOT_TOKEN = '8504591879:AAFNv-Bga_d7eo0gCGYu5aEdbCjCB760zSG';
 
-            container.innerHTML += `
-                <div class="product-card">
-                    <img src="${image}" alt="${name}">
-                    <div class="product-info">
-                        <h3 class="product-title">${name}</h3>
-                        ${desc ? `<p class="product-desc">${desc}</p>` : ''}
-                        <div class="product-bottom">
-                            <span class="product-price">${price} грн</span>
-                            <button class="btn-buy" onclick="openModal('${name}', '${price}')">Замовити</button>
+        function handleData(json) {
+            const rows = json.table.rows;
+            const container = document.getElementById('products-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+
+            if (!rows || rows.length <= 1) {
+                container.innerHTML = '<p>Немає товарів у таблиці.</p>';
+                return;
+            }
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i].c;
+                if (!row) continue;
+
+                const name = row[0] && row[0].v ? row[0].v : 'RC Drift Car 1:24';
+                const price = row[1] && row[1].v !== null ? row[1].v : '1200';
+                const image = row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300';
+                const desc = row[3] && row[3].v ? row[3].v : '';
+
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${image}" alt="${name}">
+                        <div class="product-info">
+                            <h3 class="product-title">${name}</h3>
+                            ${desc ? `<p class="product-desc">${desc}</p>` : ''}
+                            <div class="product-bottom">
+                                <span class="product-price">${price} грн</span>
+                                <button class="btn-buy" onclick="openModal('${name}', '${price}')">Замовити</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        }
-    }
-
-    function openModal(pName, pPrice) {
-        document.getElementById('order-modal').style.display = 'flex';
-        document.getElementById('modal-product-name').innerText = `${pName} — ${pPrice} грн`;
-        document.getElementById('order-product').value = `${pName} (${pPrice} грн)`;
-    }
-
-    function closeModal() {
-        document.getElementById('order-modal').style.display = 'none';
-    }
-
-    async function sendOrder(e) {
-        e.preventDefault();
-        const product = document.getElementById('order-product').value;
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        const city = document.getElementById('cust-city').value;
-
-        const message = `🏎️ *НОВЕ ЗАМОВЛЕННЯ!*\n\n📦 *Товар:* ${product}\n👤 *Клієнт:* ${name}\n📞 *Тел:* ${phone}\n📍 *Доставка:* ${city}`;
-
-        try {
-            const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TG_CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            });
-
-            if (response.ok) {
-                alert('Дякуємо! Замовлення успішно відправлено.');
-                closeModal();
-                document.getElementById('order-form').reset();
-            } else {
-                alert('Помилка відправки в Telegram.');
+                `;
             }
-        } catch (err) {
-            alert('Помилка мережі. Спробуйте ще раз.');
         }
-    }
-</script>
-<script src="https://docs.google.com/spreadsheets/d/167qfhHQyz7IOUv6m6WnOIo8V5XKnAhBxBITUsLITr7w/gviz/tq?tqx=responseHandler:handleData"></script>
+
+        function openModal(pName, pPrice) {
+            document.getElementById('order-modal').style.display = 'flex';
+            document.getElementById('modal-product-name').innerText = `${pName} — ${pPrice} грн`;
+            document.getElementById('order-product').value = `${pName} (${pPrice} грн)`;
+        }
+
+        function closeModal() {
+            document.getElementById('order-modal').style.display = 'none';
+        }
+
+        async function sendOrder(e) {
+            e.preventDefault();
+            const product = document.getElementById('order-product').value;
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const city = document.getElementById('cust-city').value;
+
+            const message = `🏎️ *НОВЕ ЗАМОВЛЕННЯ!*\n\n📦 *Товар:* ${product}\n👤 *Клієнт:* ${name}\n📞 *Тел:* ${phone}\n📍 *Доставка:* ${city}`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TG_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Дякуємо! Замовлення успішно відправлено.');
+                    closeModal();
+                    document.getElementById('order-form').reset();
+                } else {
+                    alert('Помилка відправки в Telegram.');
+                }
+            } catch (err) {
+                alert('Помилка мережі. Спробуйте ще раз.');
+            }
+        }
+    </script>
+    <script src="https://docs.google.com/spreadsheets/d/167qfhHQyz7IOUv6m6WnOIo8V5XKnAhBxBITUsLITr7w/gviz/tq?tqx=responseHandler:handleData"></script>
+</body>
+</html>
