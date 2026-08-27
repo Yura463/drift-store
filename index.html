@@ -1,82 +1,44 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drift RC Store | Машинки на радіокеруванні</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <header>
-        <h1>🏎️ DRIFT RC STORE</h1>
-        <p>Радіокеровані дрифт-машинки 1:24</p>
-    </header>
-
-    <main>
-        <section class="catalog">
-            <h2>Каталог товарів</h2>
-            <div id="products-container" class="products-grid">
-                <p>Завантаження товарів...</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Модальне вікно замовлення -->
-    <div id="order-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3>Оформлення замовлення</h3>
-            <p id="modal-product-name" style="color: #00f2fe; margin-bottom: 15px;"></p>
-            
-            <form id="order-form" onsubmit="sendOrder(event)">
-                <input type="hidden" id="order-product">
-                <input type="text" id="cust-name" placeholder="Ваше Ім'я" required>
-                <input type="tel" id="cust-phone" placeholder="Номер телефону" required>
-                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                <button type="submit" class="btn-buy" style="width: 100%; margin-top: 10px;">Підтвердити замовлення</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2026 Drift RC Store. Всі права захищені.</p>
-    </footer>
-
 <script>
     const TG_CHAT_ID = '1984162843';
     const TG_BOT_TOKEN = '8504591879:AAFNv-Bga_d7eo0gCGYu5aEdbCjCB760zSG';
 
-    // Список товарів
-    const products = [
-        {
-            name: "RC Drift Car 1:24",
-            price: "1200",
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_x...your_image_url_here",
-            desc: "Радіокерована дрифт-машинка 1:24 (4WD)"
-        }
-    ];
-
-    function loadProducts() {
+    // Обробка даних з вашої Google Таблиці
+    function handleData(json) {
+        const rows = json.table.rows;
         const container = document.getElementById('products-container');
         if (!container) return;
+        
         container.innerHTML = '';
 
-        products.forEach(prod => {
+        if (!rows || rows.length <= 1) {
+            container.innerHTML = '<p>Немає товарів у таблиці.</p>';
+            return;
+        }
+
+        // Зчитуємо рядки з таблиці (пропускаємо заголовок)
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i].c;
+            if (!row) continue;
+
+            const name = row[0] && row[0].v ? row[0].v : 'RC Drift Car 1:24';
+            const price = row[1] && row[1].v !== null ? row[1].v : '1200';
+            const image = row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300';
+            const desc = row[3] && row[3].v ? row[3].v : '';
+
             container.innerHTML += `
                 <div class="product-card">
-                    <img src="${prod.image}" alt="${prod.name}">
+                    <img src="${image}" alt="${name}">
                     <div class="product-info">
-                        <h3 class="product-title">${prod.name}</h3>
-                        <p class="product-desc">${prod.desc}</p>
+                        <h3 class="product-title">${name}</h3>
+                        ${desc ? `<p class="product-desc">${desc}</p>` : ''}
                         <div class="product-bottom">
-                            <span class="product-price">${prod.price} грн</span>
-                            <button class="btn-buy" onclick="openModal('${prod.name}', '${prod.price}')">Замовити</button>
+                            <span class="product-price">${price} грн</span>
+                            <button class="btn-buy" onclick="openModal('${name}', '${price}')">Замовити</button>
                         </div>
                     </div>
                 </div>
             `;
-        });
+        }
     }
 
     function openModal(pName, pPrice) {
@@ -120,8 +82,7 @@
             alert('Помилка мережі. Спробуйте ще раз.');
         }
     }
-
-    document.addEventListener("DOMContentLoaded", loadProducts);
 </script>
-</body>
-</html>
+
+<!-- Динамічне підключення Google Таблиці -->
+<script src="https://docs.google.com/spreadsheets/d/167qfhHQyz7IOUv6m6WnOIo8V5XKnAhBxBITUsLITr7w/gviz/tq?tqx=responseHandler:handleData"></script>
