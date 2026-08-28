@@ -135,7 +135,7 @@
             }
         }
 
-       function openModal(index) {
+      function openModal(index) {
     const item = productsData.find(p => p.id === index);
     if (!item) return;
 
@@ -144,7 +144,7 @@
     document.getElementById('modal-product-desc').innerText = item.desc;
     document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-    // Очищення та збір тільки робочих фото
+    // Збір фото
     currentPhotos = [];
     if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
     if (item.photos && item.photos.length > 0) {
@@ -157,7 +157,7 @@
     currentPhotoIndex = 0;
     updateSlider();
 
-    // Генерація мініатюр
+    // Мініатюри
     const thumbsContainer = document.getElementById('gallery-thumbs');
     thumbsContainer.innerHTML = '';
     if (currentPhotos.length > 1) {
@@ -166,35 +166,30 @@
         });
     }
 
-    // Правильна конвертація будь-яких посилань YouTube (Shorts, watch, youtu.be)
+    // Універсальна обробка YouTube
     const videoWrapper = document.getElementById('video-wrapper');
     videoWrapper.innerHTML = '';
     
     if (item.video && item.video.trim()) {
         let rawUrl = item.video.trim();
-        let embedUrl = '';
+        let videoId = '';
 
-        if (rawUrl.includes('youtube.com/watch?v=')) {
-            embedUrl = rawUrl.replace('watch?v=', 'embed/').split('&')[0];
-        } else if (rawUrl.includes('youtu.be/')) {
-            const id = rawUrl.split('youtu.be/')[1].split('?')[0];
-            embedUrl = `https://www.youtube.com/embed/${id}`;
-        } else if (rawUrl.includes('youtube.com/shorts/')) {
-            const id = rawUrl.split('shorts/')[1].split('?')[0];
-            embedUrl = `https://www.youtube.com/embed/${id}`;
-        } else if (rawUrl.includes('embed/')) {
-            embedUrl = rawUrl;
+        if (rawUrl.includes('youtu.be/')) {
+            videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
+        } else if (rawUrl.includes('watch?v=')) {
+            videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+        } else if (rawUrl.includes('shorts/')) {
+            videoId = rawUrl.split('shorts/')[1].split('?')[0];
         }
 
-        if (embedUrl) {
-            videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        if (videoId) {
+            videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
         }
     }
 
     document.getElementById('order-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
-
             // Мініатюри
             const thumbsContainer = document.getElementById('gallery-thumbs');
             thumbsContainer.innerHTML = '';
