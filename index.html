@@ -135,22 +135,65 @@
             }
         }
 
-        function openModal(index) {
-            const item = productsData.find(p => p.id === index);
-            if (!item) return;
+       function openModal(index) {
+    const item = productsData.find(p => p.id === index);
+    if (!item) return;
 
-            document.getElementById('modal-product-title').innerText = item.name;
-            document.getElementById('modal-product-price').innerText = `${item.price} грн`;
-            document.getElementById('modal-product-desc').innerText = item.desc;
-            document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
+    document.getElementById('modal-product-title').innerText = item.name;
+    document.getElementById('modal-product-price').innerText = `${item.price} грн`;
+    document.getElementById('modal-product-desc').innerText = item.desc;
+    document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-            // Фото для слайдера
-            currentPhotos = [item.image];
-            if (item.photos.length > 0) {
-                item.photos.forEach(p => { if(p.trim()) currentPhotos.push(p.trim()); });
+    // Очищення та збір тільки робочих фото
+    currentPhotos = [];
+    if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
+    if (item.photos && item.photos.length > 0) {
+        item.photos.forEach(p => { 
+            if (p && p.trim() && !currentPhotos.includes(p.trim())) {
+                currentPhotos.push(p.trim()); 
             }
-            currentPhotoIndex = 0;
-            updateSlider();
+        });
+    }
+    currentPhotoIndex = 0;
+    updateSlider();
+
+    // Генерація мініатюр
+    const thumbsContainer = document.getElementById('gallery-thumbs');
+    thumbsContainer.innerHTML = '';
+    if (currentPhotos.length > 1) {
+        currentPhotos.forEach((photo, idx) => {
+            thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})">`;
+        });
+    }
+
+    // Правильна конвертація будь-яких посилань YouTube (Shorts, watch, youtu.be)
+    const videoWrapper = document.getElementById('video-wrapper');
+    videoWrapper.innerHTML = '';
+    
+    if (item.video && item.video.trim()) {
+        let rawUrl = item.video.trim();
+        let embedUrl = '';
+
+        if (rawUrl.includes('youtube.com/watch?v=')) {
+            embedUrl = rawUrl.replace('watch?v=', 'embed/').split('&')[0];
+        } else if (rawUrl.includes('youtu.be/')) {
+            const id = rawUrl.split('youtu.be/')[1].split('?')[0];
+            embedUrl = `https://www.youtube.com/embed/${id}`;
+        } else if (rawUrl.includes('youtube.com/shorts/')) {
+            const id = rawUrl.split('shorts/')[1].split('?')[0];
+            embedUrl = `https://www.youtube.com/embed/${id}`;
+        } else if (rawUrl.includes('embed/')) {
+            embedUrl = rawUrl;
+        }
+
+        if (embedUrl) {
+            videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        }
+    }
+
+    document.getElementById('order-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
 
             // Мініатюри
             const thumbsContainer = document.getElementById('gallery-thumbs');
