@@ -1,11 +1,11 @@
 :root {
-    --bg-color: #0d0e12;
-    --card-bg: #16181e;
+    --bg-color: #0b0c10;
+    --card-bg: #15171e;
     --accent-color: #ff2a5f;
     --accent-hover: #ff4775;
     --text-color: #ffffff;
-    --text-secondary: #a0a5b5;
-    --border-color: #232733;
+    --text-secondary: #9aa0b4;
+    --border-color: #222634;
 }
 
 * {
@@ -19,18 +19,17 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    padding-bottom: 50px;
 }
 
 header {
     text-align: center;
-    padding: 40px 20px;
+    padding: 35px 20px;
     background: linear-gradient(180deg, #161822 0%, var(--bg-color) 100%);
     border-bottom: 1px solid var(--border-color);
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -41,7 +40,7 @@ header h1 {
 
 header p {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-top: 5px;
 }
 
@@ -52,8 +51,8 @@ main {
 }
 
 main h2 {
-    font-size: 1.8rem;
-    margin-bottom: 25px;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
     border-left: 4px solid var(--accent-color);
     padding-left: 12px;
 }
@@ -61,7 +60,7 @@ main h2 {
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
+    gap: 20px;
 }
 
 .product-card {
@@ -69,15 +68,15 @@ main h2 {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
 }
 
 .product-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
     border-color: var(--accent-color);
-    box-shadow: 0 10px 25px rgba(255, 42, 95, 0.2);
+    box-shadow: 0 10px 20px rgba(255, 42, 95, 0.2);
 }
 
 .product-card img {
@@ -88,7 +87,7 @@ main h2 {
 }
 
 .product-info {
-    padding: 20px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -96,20 +95,19 @@ main h2 {
 }
 
 .product-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .product-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
 }
 
 .product-price {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--accent-color);
 }
@@ -118,110 +116,236 @@ main h2 {
     background: var(--accent-color);
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s;
 }
 
 .btn-buy:hover, .btn-submit:hover {
     background: var(--accent-hover);
 }
 
+/* Повноекранна Модалка */
 .modal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
 }
 
-.modal-content {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 850px;
-    width: 90%;
+.fullscreen-modal {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
     position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
 }
 
 .close-btn {
-    position: absolute;
+    position: fixed;
     top: 15px;
-    right: 20px;
-    font-size: 24px;
-    color: var(--text-secondary);
+    right: 25px;
+    font-size: 35px;
+    color: #fff;
     cursor: pointer;
+    z-index: 10000;
+    background: rgba(0,0,0,0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal-body {
+.modal-scroll-area {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 40px 20px;
+}
+
+.product-page-grid {
+    max-width: 1100px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-    margin-top: 15px;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
 }
 
-@media (max-width: 768px) {
-    .modal-body {
+@media (max-width: 850px) {
+    .product-page-grid {
         grid-template-columns: 1fr;
+        gap: 25px;
     }
 }
 
-.modal-media #main-product-img {
+/* Слайдер */
+.slider-container {
+    position: relative;
     width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 12px;
+    height: 380px;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
     border: 1px solid var(--border-color);
 }
 
+.slider-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.slider-btn:hover {
+    background: var(--accent-color);
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
 .thumbs-container {
     display: flex;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 12px;
     overflow-x: auto;
 }
 
 .thumbs-container img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.6;
+}
+
+.thumbs-container img.active, .thumbs-container img:hover {
+    border-color: var(--accent-color);
+    opacity: 1;
+}
+
+.video-wrapper {
+    margin-top: 30px;
+}
+
+.video-wrapper h4 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
 }
 
-.modal-price {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    margin: 10px 0;
+/* Правий блок інфо */
+.stock-badge {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 10px;
 }
 
-.modal-desc {
+.product-page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.product-page-price {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.specs-box, .description-box, .checkout-box {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.specs-box h4, .description-box h4 {
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+}
+
+.specs-box ul {
+    list-style: none;
+}
+
+.specs-box li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.specs-box li strong {
+    color: var(--text-color);
+}
+
+.description-box p {
     color: var(--text-secondary);
     font-size: 0.95rem;
-    margin-bottom: 20px;
     white-space: pre-line;
 }
 
-#order-form input {
+.checkout-box h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.checkout-box input {
     width: 100%;
-    padding: 12px 15px;
+    padding: 14px;
     margin-bottom: 12px;
-    background: #0d0e12;
+    background: #0b0c10;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: #fff;
     outline: none;
+    font-size: 1rem;
+}
+
+.checkout-box input:focus {
+    border-color: var(--accent-color);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    margin-top: 5px;
 }
