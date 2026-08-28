@@ -20,26 +20,41 @@
         </div>
     </main>
 
-    <!-- Модальне вікно замовлення -->
+    <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content product-view">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3>Оформлення замовлення</h3>
-            <p id="modal-product-name"></p>
             
-            <form id="order-form" onsubmit="sendOrder(event)">
-                <input type="hidden" id="order-product">
-                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
-                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
-                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                <button type="submit" class="btn-submit">Підтвердити замовлення</button>
-            </form>
+            <div class="modal-body">
+                <!-- Ліва колонка: Фото та Відео -->
+                <div class="modal-media">
+                    <img id="main-product-img" src="" alt="Товар">
+                    <div id="gallery-thumbs" class="thumbs-container"></div>
+                    <div id="video-container" class="video-container"></div>
+                </div>
+
+                <!-- Права колонка: Інфо, Опис, Ціна та Форма -->
+                <div class="modal-details">
+                    <h3 id="modal-product-title"></h3>
+                    <div id="modal-product-price" class="modal-price"></div>
+                    <p id="modal-product-desc" class="modal-desc"></p>
+
+                    <form id="order-form" onsubmit="sendOrder(event)">
+                        <input type="hidden" id="order-product">
+                        <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                        <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
+                        <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                        <button type="submit" class="btn-submit">Купити зараз</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         const TG_CHAT_ID = '1984152843';
         const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
+        let productsData = [];
 
         function handleData(json) {
             const rows = json.table.rows;
@@ -47,6 +62,7 @@
             if (!container) return;
             
             container.innerHTML = '';
+            productsData = [];
 
             if (!rows || rows.length === 0) {
                 container.innerHTML = '<p>Немає товарів у таблиці.</p>';
@@ -60,18 +76,26 @@
                 const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
                 if (firstVal === 'name' || firstVal === 'назва') continue;
 
-                const name = row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24';
-                const price = row[1] && row[1].v !== null ? row[1].v : '0';
-                const image = row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300';
+                const item = {
+                    id: i,
+                    name: row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24',
+                    price: row[1] && row[1].v !== null ? row[1].v : '0',
+                    image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
+                    photos: row[3] && row[3].v ? row[3].v.split(',') : [],
+                    desc: row[4] && row[4].v ? row[4].v : 'Опис товару з'явиться незабаром.',
+                    video: row[5] && row[5].v ? row[5].v : ''
+                };
+
+                productsData.push(item);
 
                 container.innerHTML += `
                     <div class="product-card">
-                        <img src="${image}" alt="${name}">
+                        <img src="${item.image}" alt="${item.name}">
                         <div class="product-info">
-                            <h3 class="product-title">${name}</h3>
+                            <h3 class="product-title">${item.name}</h3>
                             <div class="product-bottom">
-                                <span class="product-price">${price} грн</span>
-                                <button class="btn-buy" onclick="openModal('${name}', '${price}')">Замовити</button>
+                                <span class="product-price">${item.price} грн</span>
+                                <button class="btn-buy" onclick="openModal(${i})">Детальніше</button>
                             </div>
                         </div>
                     </div>
@@ -79,10 +103,39 @@
             }
         }
 
-        function openModal(pName, pPrice) {
+        function openModal(index) {
+            const item = productsData.find(p => p.id === index);
+            if (!item) return;
+
+            document.getElementById('modal-product-title').innerText = item.name;
+            document.getElementById('modal-product-price').innerText = `${item.price} грн`;
+            document.getElementById('modal-product-desc').innerText = item.desc;
+            document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
+
+            // Головне фото
+            const mainImg = document.getElementById('main-product-img');
+            mainImg.src = item.image;
+
+            // Галерея мініатюр
+            const thumbsContainer = document.getElementById('gallery-thumbs');
+            thumbsContainer.innerHTML = '';
+            
+            let allPhotos = [item.image, ...item.photos];
+            if (allPhotos.length > 1) {
+                allPhotos.forEach(photo => {
+                    const cleanUrl = photo.trim();
+                    thumbsContainer.innerHTML += `<img src="${cleanUrl}" onclick="document.getElementById('main-product-img').src='${cleanUrl}'">`;
+                });
+            }
+
+            // Відео
+            const videoContainer = document.getElementById('video-container');
+            videoContainer.innerHTML = '';
+            if (item.video) {
+                videoContainer.innerHTML = `<iframe src="${item.video}" frameborder="0" allowfullscreen></iframe>`;
+            }
+
             document.getElementById('order-modal').style.display = 'flex';
-            document.getElementById('modal-product-name').innerText = `${pName} — ${pPrice} грн`;
-            document.getElementById('order-product').value = `${pName} (${pPrice} грн)`;
         }
 
         function closeModal() {
