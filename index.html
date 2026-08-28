@@ -20,7 +20,6 @@
         </div>
     </main>
 
-    <!-- Повноекранне модальне вікно товару -->
     <div id="order-modal" class="modal">
         <div class="modal-content fullscreen-modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -28,7 +27,6 @@
             <div class="modal-scroll-area">
                 <div class="product-page-grid">
                     
-                    <!-- Ліва частина: Слайдер фото та Відео -->
                     <div class="product-media-section">
                         <div class="slider-container">
                             <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
@@ -40,13 +38,11 @@
                         <div id="video-wrapper" class="video-wrapper"></div>
                     </div>
 
-                    <!-- Права частина: Інфо, характеристики, форма -->
                     <div class="product-info-section">
                         <span class="stock-badge">✓ В наявності</span>
                         <h2 id="modal-product-title" class="product-page-title"></h2>
                         <div id="modal-product-price" class="product-page-price"></div>
 
-                        <!-- Характеристики -->
                         <div class="specs-box">
                             <h4>⚡ Основні характеристики:</h4>
                             <ul>
@@ -57,13 +53,11 @@
                             </ul>
                         </div>
 
-                        <!-- Опис -->
                         <div class="description-box">
                             <h4>📋 Детальний опис:</h4>
                             <p id="modal-product-desc"></p>
                         </div>
 
-                        <!-- Форма замовлення -->
                         <div class="checkout-box">
                             <h3>🚀 Оформити швидке замовлення</h3>
                             <form id="order-form" onsubmit="sendOrder(event)">
@@ -135,61 +129,28 @@
             }
         }
 
-      function openModal(index) {
-    const item = productsData.find(p => p.id === index);
-    if (!item) return;
+        function openModal(index) {
+            const item = productsData.find(p => p.id === index);
+            if (!item) return;
 
-    document.getElementById('modal-product-title').innerText = item.name;
-    document.getElementById('modal-product-price').innerText = `${item.price} грн`;
-    document.getElementById('modal-product-desc').innerText = item.desc;
-    document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
+            document.getElementById('modal-product-title').innerText = item.name;
+            document.getElementById('modal-product-price').innerText = `${item.price} грн`;
+            document.getElementById('modal-product-desc').innerText = item.desc;
+            document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-    // Збір фото
-    currentPhotos = [];
-    if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
-    if (item.photos && item.photos.length > 0) {
-        item.photos.forEach(p => { 
-            if (p && p.trim() && !currentPhotos.includes(p.trim())) {
-                currentPhotos.push(p.trim()); 
+            // Збір фото без дублікатів та порожніх рядків
+            currentPhotos = [];
+            if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
+            if (item.photos && item.photos.length > 0) {
+                item.photos.forEach(p => { 
+                    if (p && p.trim() && !currentPhotos.includes(p.trim())) {
+                        currentPhotos.push(p.trim()); 
+                    }
+                });
             }
-        });
-    }
-    currentPhotoIndex = 0;
-    updateSlider();
+            currentPhotoIndex = 0;
+            updateSlider();
 
-    // Мініатюри
-    const thumbsContainer = document.getElementById('gallery-thumbs');
-    thumbsContainer.innerHTML = '';
-    if (currentPhotos.length > 1) {
-        currentPhotos.forEach((photo, idx) => {
-            thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})">`;
-        });
-    }
-
-    // Універсальна обробка YouTube
-    const videoWrapper = document.getElementById('video-wrapper');
-    videoWrapper.innerHTML = '';
-    
-    if (item.video && item.video.trim()) {
-        let rawUrl = item.video.trim();
-        let videoId = '';
-
-        if (rawUrl.includes('youtu.be/')) {
-            videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
-        } else if (rawUrl.includes('watch?v=')) {
-            videoId = rawUrl.split('watch?v=')[1].split('&')[0];
-        } else if (rawUrl.includes('shorts/')) {
-            videoId = rawUrl.split('shorts/')[1].split('?')[0];
-        }
-
-        if (videoId) {
-            videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-        }
-    }
-
-    document.getElementById('order-modal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
             // Мініатюри
             const thumbsContainer = document.getElementById('gallery-thumbs');
             thumbsContainer.innerHTML = '';
@@ -199,15 +160,25 @@
                 });
             }
 
-            // Відео
+            // Універсальна обробка посилань YouTube (watch, short, youtu.be)
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
-            if (item.video) {
-                let videoUrl = item.video.trim();
-                if (videoUrl.includes('watch?v=')) {
-                    videoUrl = videoUrl.replace('watch?v=', 'embed/');
+            
+            if (item.video && item.video.trim()) {
+                let rawUrl = item.video.trim();
+                let videoId = '';
+
+                if (rawUrl.includes('youtu.be/')) {
+                    videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
+                } else if (rawUrl.includes('watch?v=')) {
+                    videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+                } else if (rawUrl.includes('shorts/')) {
+                    videoId = rawUrl.split('shorts/')[1].split('?')[0];
                 }
-                videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
+
+                if (videoId) {
+                    videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                }
             }
 
             document.getElementById('order-modal').style.display = 'flex';
