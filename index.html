@@ -38,7 +38,7 @@
     </div>
 
     <script>
-        const TG_CHAT_ID = '1984162843';
+        const TG_CHAT_ID = '1984152843';
         const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
 
         function handleData(json) {
@@ -89,14 +89,14 @@
             document.getElementById('order-modal').style.display = 'none';
         }
 
-async function sendOrder(e) {
+        async function sendOrder(e) {
             e.preventDefault();
             const product = document.getElementById('order-product').value;
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
             const city = document.getElementById('cust-city').value;
 
-            const text = `Нове замовлення!\nТовар: ${product}\nКлієнт: ${name}\nТел: ${phone}\nДоставка: ${city}`;
+            const text = `🏎️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
             try {
