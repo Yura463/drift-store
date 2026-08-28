@@ -3,23 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drift RC Store</title>
+    <title>Drift RC Store | Радіокеровані дрифт-машинки 1:24</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <h1>Drift RC Store</h1>
-        <p>Радіокеровані дрифт-машинки 1:24</p>
+    <!-- Шапка сайту -->
+    <header class="hero-header">
+        <div class="header-content">
+            <span class="badge-top">🔥 Топові RC Дрифт Машинки</span>
+            <h1>DRIFT RC STORE</h1>
+            <p>Відчуй справжній дрифт у масштабі 1:24. Повний привід 4WD, змінні колеса та максимальний драйв!</p>
+            <div class="header-buttons">
+                <a href="#catalog" class="btn-hero">Переглянути каталог</a>
+                <a href="tel:+380982667919" class="btn-hero-outline">📞 +380 98 266 7919</a>
+            </div>
+        </div>
     </header>
 
-    <main>
-        <h2>Каталог товарів</h2>
+    <!-- Блок переваг -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🚀</span>
+                    <h3>Швидка доставка</h3>
+                    <p>Відправка Новою Поштою в день замовлення по всій Україні.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏎️</span>
+                    <h3>Повний комплект</h3>
+                    <p>Машинка, пульт, акумулятор, зарядка та 2 комплекти гуми (дрифт + зачіп).</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔍</span>
+                    <h3>Перевірка якості</h3>
+                    <p>Кожну машинку тестуємо перед пакуванням та відправкою.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Каталог товарів -->
+    <main id="catalog" class="container">
+        <h2 class="section-title">Каталог моделей</h2>
         <div id="products-container" class="products-grid">
-            <p>Завантаження товарів...</p>
+            <p class="loading-text">Завантаження товарів...</p>
         </div>
     </main>
 
+    <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
         <div class="modal-content fullscreen-modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -27,6 +63,7 @@
             <div class="modal-scroll-area">
                 <div class="product-page-grid">
                     
+                    <!-- Ліва частина: Слайдер фото та Відео -->
                     <div class="product-media-section">
                         <div class="slider-container">
                             <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
@@ -38,11 +75,13 @@
                         <div id="video-wrapper" class="video-wrapper"></div>
                     </div>
 
+                    <!-- Права частина: Інфо, характеристики, форма -->
                     <div class="product-info-section">
-                        <span class="stock-badge">✓ В наявності</span>
+                        <span id="modal-stock-badge" class="stock-badge"></span>
                         <h2 id="modal-product-title" class="product-page-title"></h2>
                         <div id="modal-product-price" class="product-page-price"></div>
 
+                        <!-- Характеристики -->
                         <div class="specs-box">
                             <h4>⚡ Основні характеристики:</h4>
                             <ul>
@@ -53,11 +92,13 @@
                             </ul>
                         </div>
 
+                        <!-- Опис -->
                         <div class="description-box">
                             <h4>📋 Детальний опис:</h4>
                             <p id="modal-product-desc"></p>
                         </div>
 
+                        <!-- Форма замовлення -->
                         <div class="checkout-box">
                             <h3>🚀 Оформити швидке замовлення</h3>
                             <form id="order-form" onsubmit="sendOrder(event)">
@@ -65,7 +106,7 @@
                                 <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
                                 <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
                                 <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                                <button type="submit" class="btn-submit">Замовити зараз</button>
+                                <button type="submit" id="submit-btn" class="btn-submit">Замовити зараз</button>
                             </form>
                         </div>
                     </div>
@@ -74,6 +115,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Футер з контактами -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>DRIFT RC STORE</h3>
+                <p>Магазин радіокерованих дрифт моделей в Україні.</p>
+            </div>
+            <div class="footer-contacts">
+                <h4>Контакти для зв'язку:</h4>
+                <p>📞 Телефон: <a href="tel:+380982667919">+380 98 266 7919</a></p>
+                <p>💬 Telegram: <a href="https://t.me/yura463" target="_blank">Написати в Telegram</a></p>
+                <p>📍 Доставка: Нова Пошта (1-2 дні)</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Drift RC Store. Всі права захищені.</p>
+        </div>
+    </footer>
 
     <script>
         const TG_CHAT_ID = '1984152843';
@@ -102,21 +162,33 @@
                 const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
                 if (firstVal === 'name' || firstVal === 'назва') continue;
 
+                // Перевірка наявності з колонки G (індекс 6)
+                const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
+                const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
+
                 const item = {
                     id: i,
                     name: row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24',
                     price: row[1] && row[1].v !== null ? row[1].v : '0',
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
-                    desc: row[4] && row[4].v ? row[4].v : 'Потужна дрифт-машинка 1:24 із повним приводом (4WD). Чудово підходить для заносів у приміщенні та на асфальті.',
-                    video: row[5] && row[5].v ? row[5].v : ''
+                    desc: row[4] && row[4].v ? row[4].v : 'Потужна дрифт-машинка 1:24 із повним приводом (4WD).',
+                    video: row[5] && row[5].v ? row[5].v : '',
+                    available: isAvailable
                 };
 
                 productsData.push(item);
 
+                const stockBadgeHTML = item.available 
+                    ? `<span class="card-badge in-stock">✓ В наявності</span>`
+                    : `<span class="card-badge out-stock">✕ Під замовлення</span>`;
+
                 container.innerHTML += `
                     <div class="product-card">
-                        <img src="${item.image}" alt="${item.name}">
+                        <div class="card-img-wrapper">
+                            ${stockBadgeHTML}
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
                         <div class="product-info">
                             <h3 class="product-title">${item.name}</h3>
                             <div class="product-bottom">
@@ -138,7 +210,23 @@
             document.getElementById('modal-product-desc').innerText = item.desc;
             document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-            // Збір фото без дублікатів та порожніх рядків
+            // Статус наявності у модалці
+            const stockBadge = document.getElementById('modal-stock-badge');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (item.available) {
+                stockBadge.className = 'stock-badge in-stock-badge';
+                stockBadge.innerText = '✓ В наявності';
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Замовити зараз';
+            } else {
+                stockBadge.className = 'stock-badge out-stock-badge';
+                stockBadge.innerText = '✕ Немає в наявності';
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Тимчасово немає в наявності';
+            }
+
+            // Фото
             currentPhotos = [];
             if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
             if (item.photos && item.photos.length > 0) {
@@ -151,7 +239,6 @@
             currentPhotoIndex = 0;
             updateSlider();
 
-            // Мініатюри
             const thumbsContainer = document.getElementById('gallery-thumbs');
             thumbsContainer.innerHTML = '';
             if (currentPhotos.length > 1) {
@@ -160,7 +247,7 @@
                 });
             }
 
-            // Універсальна обробка посилань YouTube (watch, short, youtu.be)
+            // Відео
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
             
@@ -177,7 +264,7 @@
                 }
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
