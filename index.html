@@ -20,32 +20,62 @@
         </div>
     </main>
 
-    <!-- Модальне вікно товару -->
+    <!-- Повноекранне модальне вікно товару -->
     <div id="order-modal" class="modal">
-        <div class="modal-content product-view">
+        <div class="modal-content fullscreen-modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             
-            <div class="modal-body">
-                <!-- Ліва колонка: Фото та Відео -->
-                <div class="modal-media">
-                    <img id="main-product-img" src="" alt="Товар">
-                    <div id="gallery-thumbs" class="thumbs-container"></div>
-                    <div id="video-container" class="video-container"></div>
-                </div>
+            <div class="modal-scroll-area">
+                <div class="product-page-grid">
+                    
+                    <!-- Ліва частина: Слайдер фото та Відео -->
+                    <div class="product-media-section">
+                        <div class="slider-container">
+                            <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
+                            <img id="main-slide-img" src="" alt="Товар">
+                            <button class="slider-btn next-btn" onclick="moveSlide(1)">❯</button>
+                        </div>
+                        <div id="gallery-thumbs" class="thumbs-container"></div>
+                        
+                        <div id="video-wrapper" class="video-wrapper"></div>
+                    </div>
 
-                <!-- Права колонка: Інфо, Опис, Ціна та Форма -->
-                <div class="modal-details">
-                    <h3 id="modal-product-title"></h3>
-                    <div id="modal-product-price" class="modal-price"></div>
-                    <p id="modal-product-desc" class="modal-desc"></p>
+                    <!-- Права частина: Інфо, характеристики, форма -->
+                    <div class="product-info-section">
+                        <span class="stock-badge">✓ В наявності</span>
+                        <h2 id="modal-product-title" class="product-page-title"></h2>
+                        <div id="modal-product-price" class="product-page-price"></div>
 
-                    <form id="order-form" onsubmit="sendOrder(event)">
-                        <input type="hidden" id="order-product">
-                        <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
-                        <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
-                        <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                        <button type="submit" class="btn-submit">Купити зараз</button>
-                    </form>
+                        <!-- Характеристики -->
+                        <div class="specs-box">
+                            <h4>⚡ Основні характеристики:</h4>
+                            <ul>
+                                <li><strong>Масштаб:</strong> 1:24</li>
+                                <li><strong>Привод:</strong> Повний 4WD</li>
+                                <li><strong>Живлення:</strong> Акумулятор Li-ion</li>
+                                <li><strong>Комплект:</strong> Машинка, пульт, 4 дрифт-покришки, 4 гумові покришки, акумулятор, USB-кабель</li>
+                            </ul>
+                        </div>
+
+                        <!-- Опис -->
+                        <div class="description-box">
+                            <h4>📋 Детальний опис:</h4>
+                            <p id="modal-product-desc"></p>
+                        </div>
+
+                        <!-- Форма замовлення -->
+                        <div class="checkout-box">
+                            <h3>🚀 Оформити швидке замовлення</h3>
+                            <form id="order-form" onsubmit="sendOrder(event)">
+                                <input type="hidden" id="order-product">
+                                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
+                                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                                <button type="submit" class="btn-submit">Замовити зараз</button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -55,6 +85,8 @@
         const TG_CHAT_ID = '1984152843';
         const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
         let productsData = [];
+        let currentPhotos = [];
+        let currentPhotoIndex = 0;
 
         function handleData(json) {
             const rows = json.table.rows;
@@ -82,7 +114,7 @@
                     price: row[1] && row[1].v !== null ? row[1].v : '0',
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
-                    desc: row[4] && row[4].v ? row[4].v : 'Опис товару зявиться незабаром.',
+                    desc: row[4] && row[4].v ? row[4].v : 'Потужна дрифт-машинка 1:24 із повним приводом (4WD). Чудово підходить для заносів у приміщенні та на асфальті.',
                     video: row[5] && row[5].v ? row[5].v : ''
                 };
 
@@ -112,34 +144,62 @@
             document.getElementById('modal-product-desc').innerText = item.desc;
             document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-            // Головне фото
-            const mainImg = document.getElementById('main-product-img');
-            mainImg.src = item.image;
+            // Фото для слайдера
+            currentPhotos = [item.image];
+            if (item.photos.length > 0) {
+                item.photos.forEach(p => { if(p.trim()) currentPhotos.push(p.trim()); });
+            }
+            currentPhotoIndex = 0;
+            updateSlider();
 
-            // Галерея мініатюр
+            // Мініатюри
             const thumbsContainer = document.getElementById('gallery-thumbs');
             thumbsContainer.innerHTML = '';
-            
-            let allPhotos = [item.image, ...item.photos];
-            if (allPhotos.length > 1) {
-                allPhotos.forEach(photo => {
-                    const cleanUrl = photo.trim();
-                    thumbsContainer.innerHTML += `<img src="${cleanUrl}" onclick="document.getElementById('main-product-img').src='${cleanUrl}'">`;
+            if (currentPhotos.length > 1) {
+                currentPhotos.forEach((photo, idx) => {
+                    thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})">`;
                 });
             }
 
             // Відео
-            const videoContainer = document.getElementById('video-container');
-            videoContainer.innerHTML = '';
+            const videoWrapper = document.getElementById('video-wrapper');
+            videoWrapper.innerHTML = '';
             if (item.video) {
-                videoContainer.innerHTML = `<iframe src="${item.video}" frameborder="0" allowfullscreen></iframe>`;
+                let videoUrl = item.video.trim();
+                if (videoUrl.includes('watch?v=')) {
+                    videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                }
+                videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
             }
 
             document.getElementById('order-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateSlider() {
+            document.getElementById('main-slide-img').src = currentPhotos[currentPhotoIndex];
+            const thumbs = document.querySelectorAll('.thumbs-container img');
+            thumbs.forEach((t, idx) => {
+                if (idx === currentPhotoIndex) t.classList.add('active');
+                else t.classList.remove('active');
+            });
+        }
+
+        function moveSlide(direction) {
+            currentPhotoIndex += direction;
+            if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
+            if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
+            updateSlider();
+        }
+
+        function setSlide(index) {
+            currentPhotoIndex = index;
+            updateSlider();
         }
 
         function closeModal() {
             document.getElementById('order-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         async function sendOrder(e) {
