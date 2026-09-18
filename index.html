@@ -3,143 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TINY STORE | Гаджети, дрифт-моделі та іграшки</title>
+    <title>TINY STORE</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Градієнтні фонові плями -->
-    <div class="bg-glow glow-1"></div>
-    <div class="bg-glow glow-2"></div>
+    <!-- Неонові фонові ефекти -->
+    <div class="glow-bg glow-red"></div>
+    <div class="glow-bg glow-blue"></div>
 
-    <!-- Навігація -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="brand-logo">
-                <img src="./logo.png" alt="Logo" class="nav-logo-img" onerror="this.style.display='none'">
-                <span class="brand-text">TINY <span class="accent-text">STORE</span></span>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <span class="logo-bold">TINY</span><span class="logo-accent">STORE</span>
             </a>
-            <div class="nav-contacts">
-                <a href="tel:+380982667919" class="nav-phone-btn">📞 +380 98 266 7919</a>
-                <a href="https://t.me/TinyDrift" target="_blank" class="nav-tg-btn">💬 Telegram</a>
+            <div class="header-actions">
+                <a href="tel:+380982667919" class="phone-link">+380 98 266 7919</a>
+                <a href="https://t.me/TinyDrift" target="_blank" class="tg-link">Telegram ⚡</a>
             </div>
-        </div>
-    </nav>
-
-    <!-- Головний баннер (Hero Block) -->
-    <header class="hero-section">
-        <div class="container hero-content">
-            <span class="hero-badge">🔥 ТОП ТОВАРИ ТА ГАДЖЕТИ ДЛЯ ДІТЕЙ І ПІДЛІТКІВ</span>
-            <h1 class="hero-title">ТВІЙ СВІТ <span class="gradient-text">РОЗВАГ ТА ГАДЖЕТІВ</span></h1>
-            <p class="hero-subtitle">Дрифт-машинки, геймпади для телефонів, дитячі бластери та найпопулярніші трендові товари з швидкою доставкою по Україні.</p>
-            <a href="#catalog" class="hero-cta-btn">Переглянути каталог ⚡</a>
         </div>
     </header>
 
-    <!-- Переваги магазину (Таблиці/Картки) -->
-    <section class="features-section">
-        <div class="container features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>Швидка відправка</h3>
-                <p>Відправляємо Новою Поштою протягом 24 годин.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔥</div>
-                <h3>Трендові новинки</h3>
-                <p>Джойстики, іграшки та дрифт-моделі за кращими цінами.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Перевірка якості</h3>
-                <p>Кожен товар детально тестуємо перед відправкою.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Основний каталог -->
-    <section id="catalog" class="main-catalog-container">
-        <div class="container">
-            <h2 class="section-title">Каталог товарів</h2>
-            
-            <!-- Фільтри товарів -->
-            <div class="category-filters">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">🔥 Всі товари</button>
-                <button class="filter-btn" onclick="filterCategory('drift', this)">🏎️ Дрифт машинки</button>
-                <button class="filter-btn" onclick="filterCategory('gamepad', this)">🎮 Геймпади та джойстики</button>
-                <button class="filter-btn" onclick="filterCategory('toys', this)">🔫 Бластери та іграшки</button>
-            </div>
-
-            <!-- Сітка товарів -->
-            <div id="products-container" class="products-grid">
-                <p class="loading-text">Завантаження товарів...</p>
-            </div>
+    <main class="container catalog-section">
+        <div id="products-container" class="products-grid">
+            <div class="loading-state">Завантаження товарів...</div>
         </div>
-    </section>
+    </main>
 
     <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
-        <div class="modal-content glass-card">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-scroll-area">
-                <div class="product-page-grid">
-                    
-                    <div class="product-media-section">
-                        <div class="slider-container">
-                            <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
-                            <img id="main-slide-img" src="" alt="Товар">
-                            <button class="slider-btn next-btn" onclick="moveSlide(1)">❯</button>
-                        </div>
-                        <div id="gallery-thumbs" class="thumbs-container"></div>
-                        <div id="video-wrapper" class="video-wrapper"></div>
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-card glass-panel">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body">
+                
+                <div class="modal-media">
+                    <div class="main-image-box">
+                        <button class="nav-arrow prev" onclick="moveSlide(-1)">❮</button>
+                        <img id="main-slide-img" src="" alt="Товар">
+                        <button class="nav-arrow next" onclick="moveSlide(1)">❯</button>
                     </div>
-
-                    <div class="product-info-section">
-                        <span id="modal-stock-badge" class="stock-badge"></span>
-                        <h2 id="modal-product-title" class="product-page-title"></h2>
-                        <div id="modal-product-price" class="product-page-price"></div>
-
-                        <div class="description-box">
-                            <h4>📋 Опис та характеристики:</h4>
-                            <p id="modal-product-desc"></p>
-                        </div>
-
-                        <div class="checkout-box">
-                            <h3>🚀 Швидке замовлення</h3>
-                            <form id="order-form" onsubmit="sendOrder(event)">
-                                <input type="hidden" id="order-product">
-                                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
-                                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
-                                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                                <button type="submit" id="submit-btn" class="btn-submit">Оформити замовлення</button>
-                            </form>
-                            <div class="modal-or-divider">або</div>
-                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Написати в Telegram</a>
-                        </div>
-                    </div>
-
+                    <div id="gallery-thumbs" class="thumbs-list"></div>
+                    <div id="video-wrapper" class="video-box"></div>
                 </div>
+
+                <div class="modal-info">
+                    <div id="modal-stock-badge" class="badge"></div>
+                    <h2 id="modal-product-title" class="modal-title"></h2>
+                    <div id="modal-product-price" class="modal-price"></div>
+
+                    <div class="desc-box">
+                        <p id="modal-product-desc"></p>
+                    </div>
+
+                    <form id="order-form" class="order-form" onsubmit="sendOrder(event)">
+                        <input type="hidden" id="order-product">
+                        <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                        <input type="tel" id="cust-phone" placeholder="Номер телефону" required>
+                        <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                        <button type="submit" id="submit-btn" class="btn-primary">Замовити зараз</button>
+                    </form>
+
+                    <a href="https://t.me/TinyDrift" target="_blank" class="btn-secondary">Написати в Telegram</a>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Плаваюча кнопка Telegram -->
-    <a href="https://t.me/TinyDrift" target="_blank" class="floating-tg-btn" title="Написати в Telegram">💬</a>
-
     <!-- Футер -->
-    <footer class="main-footer">
-        <div class="container footer-flex">
-            <div>
-                <strong class="footer-brand">TINY <span class="accent-text">STORE</span></strong>
-                <p>Магазин трендових іграшок та гаджетів</p>
-            </div>
-            <div class="footer-contacts">
-                <a href="tel:+380982667919">📞 +380 98 266 7919</a>
-                <a href="https://t.me/TinyDrift" target="_blank">💬 @TinyDrift</a>
-            </div>
+    <footer class="footer">
+        <div class="container footer-content">
+            <span class="logo-bold">TINY <span class="logo-accent">STORE</span></span>
+            <p>Магазин трендових товарів</p>
         </div>
     </footer>
 
@@ -149,7 +90,6 @@
         let productsData = [];
         let currentPhotos = [];
         let currentPhotoIndex = 0;
-        let activeCategory = 'all';
 
         function handleData(json) {
             const rows = json.table.rows;
@@ -160,7 +100,7 @@
             productsData = [];
 
             if (!rows || rows.length === 0) {
-                container.innerHTML = '<p class="loading-text">Немає товарів у таблиці.</p>';
+                container.innerHTML = '<div class="loading-state">Товари відсутні.</div>';
                 return;
             }
 
@@ -173,11 +113,6 @@
 
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
-                
-                let category = row[7] && row[7].v ? String(row[7].v).toLowerCase().trim() : 'drift';
-                const nameLower = (row[0] && row[0].v ? row[0].v : '').toLowerCase();
-                if (nameLower.includes('джойстик') || nameLower.includes('геймпад') || nameLower.includes('gamepad')) category = 'gamepad';
-                else if (nameLower.includes('пістолет') || nameLower.includes('бластер') || nameLower.includes('іграшка')) category = 'toys';
 
                 const item = {
                     id: i,
@@ -185,10 +120,9 @@
                     price: row[1] && row[1].v !== null ? row[1].v : '0',
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
-                    desc: row[4] && row[4].v ? row[4].v : 'Детальний опис товару.',
+                    desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
                     video: row[5] && row[5].v ? row[5].v : '',
-                    available: isAvailable,
-                    category: category
+                    available: isAvailable
                 };
 
                 productsData.push(item);
@@ -200,43 +134,27 @@
             const container = document.getElementById('products-container');
             container.innerHTML = '';
 
-            const filtered = activeCategory === 'all' 
-                ? productsData 
-                : productsData.filter(p => p.category === activeCategory);
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<p class="loading-text">У цій категорії поки немає товарів.</p>';
-                return;
-            }
-
-            filtered.forEach(item => {
-                const stockBadgeHTML = item.available 
-                    ? `<span class="card-badge in-stock">✓ В наявності</span>`
-                    : `<span class="card-badge out-stock">✕ Немає в наявності</span>`;
+            productsData.forEach(item => {
+                const badgeHTML = item.available 
+                    ? `<span class="badge in-stock">В наявності</span>`
+                    : `<span class="badge out-stock">Немає в наявності</span>`;
 
                 container.innerHTML += `
-                    <div class="product-card glass-card">
-                        <div class="card-img-wrapper">
-                            ${stockBadgeHTML}
+                    <div class="product-card glass-panel" onclick="openModal(${item.id})">
+                        <div class="card-media">
+                            ${badgeHTML}
                             <img src="${item.image}" alt="${item.name}">
                         </div>
-                        <div class="product-info">
-                            <h3 class="product-title">${item.name}</h3>
-                            <div class="product-bottom">
-                                <div class="price-tag">${item.price} <small>грн</small></div>
-                                <button class="btn-buy" onclick="openModal(${item.id})">Замовити</button>
+                        <div class="card-details">
+                            <h3 class="card-title">${item.name}</h3>
+                            <div class="card-footer">
+                                <div class="price">${item.price} <span>грн</span></div>
+                                <button class="btn-card">Замовити</button>
                             </div>
                         </div>
                     </div>
                 `;
             });
-        }
-
-        function filterCategory(cat, btn) {
-            activeCategory = cat;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderProducts();
         }
 
         function openModal(index) {
@@ -252,24 +170,22 @@
             const submitBtn = document.getElementById('submit-btn');
             
             if (item.available) {
-                stockBadge.className = 'stock-badge in-stock-badge';
-                stockBadge.innerText = '✓ В наявності';
+                stockBadge.className = 'badge in-stock';
+                stockBadge.innerText = 'В наявності';
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Оформити замовлення';
+                submitBtn.innerText = 'Замовити зараз';
             } else {
-                stockBadge.className = 'stock-badge out-stock-badge';
-                stockBadge.innerText = '✕ Немає в наявності';
+                stockBadge.className = 'badge out-stock';
+                stockBadge.innerText = 'Немає в наявності';
                 submitBtn.disabled = true;
-                submitBtn.innerText = 'Тимчасово немає';
+                submitBtn.innerText = 'Немає в наявності';
             }
 
             currentPhotos = [];
             if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
             if (item.photos && item.photos.length > 0) {
                 item.photos.forEach(p => { 
-                    if (p && p.trim() && !currentPhotos.includes(p.trim())) {
-                        currentPhotos.push(p.trim()); 
-                    }
+                    if (p && p.trim() && !currentPhotos.includes(p.trim())) currentPhotos.push(p.trim()); 
                 });
             }
             currentPhotoIndex = 0;
@@ -279,7 +195,7 @@
             thumbsContainer.innerHTML = '';
             if (currentPhotos.length > 1) {
                 currentPhotos.forEach((photo, idx) => {
-                    thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})">`;
+                    thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="event.stopPropagation(); setSlide(${idx})">`;
                 });
             }
 
@@ -293,17 +209,17 @@
                 else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<h4>🎥 Відео-огляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
-            document.getElementById('order-modal').style.display = 'flex';
+            document.getElementById('order-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function updateSlider() {
             document.getElementById('main-slide-img').src = currentPhotos[currentPhotoIndex];
-            const thumbs = document.querySelectorAll('.thumbs-container img');
+            const thumbs = document.querySelectorAll('.thumbs-list img');
             thumbs.forEach((t, idx) => {
                 if (idx === currentPhotoIndex) t.classList.add('active');
                 else t.classList.remove('active');
@@ -311,6 +227,7 @@
         }
 
         function moveSlide(direction) {
+            event.stopPropagation();
             currentPhotoIndex += direction;
             if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
             if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
@@ -323,7 +240,7 @@
         }
 
         function closeModal() {
-            document.getElementById('order-modal').style.display = 'none';
+            document.getElementById('order-modal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
@@ -334,7 +251,7 @@
             const phone = document.getElementById('cust-phone').value;
             const city = document.getElementById('cust-city').value;
 
-            const text = `🛍️ НОВЕ ЗАМОВЛЕННЯ TINY STORE!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
+            const text = `🛍️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
             try {
@@ -342,14 +259,14 @@
                 const data = await response.json();
 
                 if (data.ok) {
-                    alert('Дякуємо! Замовлення прийнято, чекайте на дзвінок/повідомлення.');
+                    alert('Дякуємо! Замовлення прийнято.');
                     closeModal();
                     document.getElementById('order-form').reset();
                 } else {
                     alert(`Помилка: ${data.description}`);
                 }
             } catch (err) {
-                alert('Помилка мережі. Спробуйте ще раз.');
+                alert('Помилка мережі.');
             }
         }
     </script>
