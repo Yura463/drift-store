@@ -1,360 +1,329 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift RC Store | Радіокеровані дрифт-машинки 1:24</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-body {
-    background-color: #0b0c10;
-    color: #e2e8f0;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-}
+    <!-- Шапка сайту -->
+    <header class="hero-header">
+        <div class="header-content">
+            <span class="badge-top">🔥 Топові RC Дрифт Машинки</span>
+            <h1>DRIFT RC STORE</h1>
+            <p>Відчуй справжній дрифт у масштабі 1:24. Повний привід 4WD, змінні колеса та максимальний драйв!</p>
+            <div class="header-buttons">
+                <a href="#catalog" class="btn-hero">Переглянути каталог</a>
+                <a href="tel:+380982667919" class="btn-hero-outline">📞 +380 98 266 7919</a>
+            </div>
+        </div>
+    </header>
 
-/* Фонові свічення */
-.glow-bg {
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    filter: blur(150px);
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.35;
-}
+    <!-- Блок переваг -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🚀</span>
+                    <h3>Швидка доставка</h3>
+                    <p>Відправка Новою Поштою в день замовлення по всій Україні.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏎️</span>
+                    <h3>Повний комплект</h3>
+                    <p>Машинка, пульт, акумулятор, зарядка та 2 комплекти гуми (дрифт + зачіп).</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔍</span>
+                    <h3>Перевірка якості</h3>
+                    <p>Кожну машинку тестуємо перед пакуванням та відправкою.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-.glow-red { top: -50px; left: -50px; background: #ff2a5f; }
-.glow-blue { top: 400px; right: -50px; background: #0088ff; }
+    <!-- Каталог товарів -->
+    <main id="catalog" class="container">
+        <h2 class="section-title">Каталог моделей</h2>
+        <div id="products-container" class="products-grid">
+            <p class="loading-text">Завантаження товарів...</p>
+        </div>
+    </main>
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+    <!-- Модальне вікно товару -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content fullscreen-modal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-scroll-area">
+                <div class="product-page-grid">
+                    
+                    <!-- Ліва частина: Слайдер фото та Відео -->
+                    <div class="product-media-section">
+                        <div class="slider-container">
+                            <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
+                            <img id="main-slide-img" src="" alt="Товар">
+                            <button class="slider-btn next-btn" onclick="moveSlide(1)">❯</button>
+                        </div>
+                        <div id="gallery-thumbs" class="thumbs-container"></div>
+                        
+                        <div id="video-wrapper" class="video-wrapper"></div>
+                    </div>
 
-/* Глассморфізм панелі */
-.glass-panel {
-    background: rgba(18, 20, 29, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
+                    <!-- Права частина: Інфо, характеристики, форма -->
+                    <div class="product-info-section">
+                        <span id="modal-stock-badge" class="stock-badge"></span>
+                        <h2 id="modal-product-title" class="product-page-title"></h2>
+                        <div id="modal-product-price" class="product-page-price"></div>
 
-/* Шапка */
-.header {
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
+                        <!-- Характеристики -->
+                        <div class="specs-box">
+                            <h4>⚡ Основні характеристики:</h4>
+                            <ul>
+                                <li><strong>Масштаб:</strong> 1:24</li>
+                                <li><strong>Привод:</strong> Повний 4WD</li>
+                                <li><strong>Живлення:</strong> Акумулятор Li-ion</li>
+                                <li><strong>Комплект:</strong> Машинка, пульт, 4 дрифт-покришки, 4 гумові покришки, акумулятор, USB-кабель</li>
+                            </ul>
+                        </div>
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+                        <!-- Опис -->
+                        <div class="description-box">
+                            <h4>📋 Детальний опис:</h4>
+                            <p id="modal-product-desc"></p>
+                        </div>
 
-.logo {
-    text-decoration: none;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 1px;
-}
+                        <!-- Форма замовлення -->
+                        <div class="checkout-box">
+                            <h3>🚀 Оформити швидке замовлення</h3>
+                            <form id="order-form" onsubmit="sendOrder(event)">
+                                <input type="hidden" id="order-product">
+                                <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
+                                <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
+                                <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
+                                <button type="submit" id="submit-btn" class="btn-submit">Замовити зараз</button>
+                            </form>
+                        </div>
+                    </div>
 
-.logo-bold { color: #ffffff; }
-.logo-accent { color: #ff2a5f; }
+                </div>
+            </div>
+        </div>
+    </div>
 
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+    <!-- Футер з контактами -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>DRIFT RC STORE</h3>
+                <p>Магазин радіокерованих дрифт моделей в Україні.</p>
+            </div>
+            <div class="footer-contacts">
+                <h4>Контакти для зв'язку:</h4>
+                <p>📞 Телефон: <a href="tel:+380982667919">+380 98 266 7919</a></p>
+                <p>💬 Telegram: <a href="https://t.me/yura463" target="_blank">Написати в Telegram</a></p>
+                <p>📍 Доставка: Нова Пошта (1-2 дні)</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Drift RC Store. Всі права захищені.</p>
+        </div>
+    </footer>
 
-.phone-link {
-    color: #94a3b8;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-}
+    <script>
+        const TG_CHAT_ID = '1984152843';
+        const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
+        let productsData = [];
+        let currentPhotos = [];
+        let currentPhotoIndex = 0;
 
-.tg-link {
-    background: linear-gradient(135deg, #0088cc, #00aaff);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.85rem;
-    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
-}
+        function handleData(json) {
+            const rows = json.table.rows;
+            const container = document.getElementById('products-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            productsData = [];
 
-/* Каталог */
-.catalog-section {
-    padding: 40px 0 80px;
-}
+            if (!rows || rows.length === 0) {
+                container.innerHTML = '<p>Немає товарів у таблиці.</p>';
+                return;
+            }
 
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i].c;
+                if (!row) continue;
 
-.loading-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px;
-    color: #64748b;
-    font-size: 1.1rem;
-}
+                const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
+                if (firstVal === 'name' || firstVal === 'назва') continue;
 
-/* Картка товару */
-.product-card {
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-}
+                // Перевірка наявності з колонки G (індекс 6)
+                const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
+                const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
 
-.product-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255, 42, 95, 0.4);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-}
+                const item = {
+                    id: i,
+                    name: row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24',
+                    price: row[1] && row[1].v !== null ? row[1].v : '0',
+                    image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
+                    photos: row[3] && row[3].v ? row[3].v.split(',') : [],
+                    desc: row[4] && row[4].v ? row[4].v : 'Потужна дрифт-машинка 1:24 із повним приводом (4WD).',
+                    video: row[5] && row[5].v ? row[5].v : '',
+                    available: isAvailable
+                };
 
-.card-media {
-    position: relative;
-    width: 100%;
-    height: 240px;
-    background: #ffffff;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+                productsData.push(item);
 
-.card-media img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
+                const stockBadgeHTML = item.available 
+                    ? `<span class="card-badge in-stock">✓ В наявності</span>`
+                    : `<span class="card-badge out-stock">✕ Під замовлення</span>`;
 
-.badge {
-    position: absolute;
-    top: 12px; left: 12px;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 800;
-}
+                container.innerHTML += `
+                    <div class="product-card">
+                        <div class="card-img-wrapper">
+                            ${stockBadgeHTML}
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${item.name}</h3>
+                            <div class="product-bottom">
+                                <span class="product-price">${item.price} грн</span>
+                                <button class="btn-buy" onclick="openModal(${i})">Детальніше</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
 
-.badge.in-stock { background: #10b981; color: #fff; }
-.badge.out-stock { background: #ef4444; color: #fff; }
+        function openModal(index) {
+            const item = productsData.find(p => p.id === index);
+            if (!item) return;
 
-.card-details {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-}
+            document.getElementById('modal-product-title').innerText = item.name;
+            document.getElementById('modal-product-price').innerText = `${item.price} грн`;
+            document.getElementById('modal-product-desc').innerText = item.desc;
+            document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-.card-title {
-    font-size: 1.1rem;
-    color: #fff;
-    font-weight: 700;
-    margin-bottom: 20px;
-    line-height: 1.4;
-}
+            // Статус наявності у модалці
+            const stockBadge = document.getElementById('modal-stock-badge');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (item.available) {
+                stockBadge.className = 'stock-badge in-stock-badge';
+                stockBadge.innerText = '✓ В наявності';
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Замовити зараз';
+            } else {
+                stockBadge.className = 'stock-badge out-stock-badge';
+                stockBadge.innerText = '✕ Немає в наявності';
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Тимчасово немає в наявності';
+            }
 
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+            // Фото
+            currentPhotos = [];
+            if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
+            if (item.photos && item.photos.length > 0) {
+                item.photos.forEach(p => { 
+                    if (p && p.trim() && !currentPhotos.includes(p.trim())) {
+                        currentPhotos.push(p.trim()); 
+                    }
+                });
+            }
+            currentPhotoIndex = 0;
+            updateSlider();
 
-.price {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #ffffff;
-}
+            const thumbsContainer = document.getElementById('gallery-thumbs');
+            thumbsContainer.innerHTML = '';
+            if (currentPhotos.length > 1) {
+                currentPhotos.forEach((photo, idx) => {
+                    thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})">`;
+                });
+            }
 
-.price span {
-    font-size: 0.85rem;
-    color: #64748b;
-}
+            // Відео
+            const videoWrapper = document.getElementById('video-wrapper');
+            videoWrapper.innerHTML = '';
+            
+            if (item.video && item.video.trim()) {
+                let rawUrl = item.video.trim();
+                let videoId = '';
 
-.btn-card {
-    background: #ff2a5f;
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-}
+                if (rawUrl.includes('youtu.be/')) {
+                    videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
+                } else if (rawUrl.includes('watch?v=')) {
+                    videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+                } else if (rawUrl.includes('shorts/')) {
+                    videoId = rawUrl.split('shorts/')[1].split('?')[0];
+                }
 
-.product-card:hover .btn-card {
-    background: #ff4575;
-    box-shadow: 0 4px 15px rgba(255, 42, 95, 0.4);
-}
+                if (videoId) {
+                    videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                }
+            }
 
-/* Модальне вікно */
-.modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.3s opacity ease;
-}
+            document.getElementById('order-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
 
-.modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+        function updateSlider() {
+            document.getElementById('main-slide-img').src = currentPhotos[currentPhotoIndex];
+            const thumbs = document.querySelectorAll('.thumbs-container img');
+            thumbs.forEach((t, idx) => {
+                if (idx === currentPhotoIndex) t.classList.add('active');
+                else t.classList.remove('active');
+            });
+        }
 
-.modal-overlay {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(8px);
-}
+        function moveSlide(direction) {
+            currentPhotoIndex += direction;
+            if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
+            if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
+            updateSlider();
+        }
 
-.modal-card {
-    position: relative;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    border-radius: 20px;
-    overflow-y: auto;
-    z-index: 2;
-    padding: 30px;
-}
+        function setSlide(index) {
+            currentPhotoIndex = index;
+            updateSlider();
+        }
 
-.modal-close {
-    position: absolute;
-    top: 16px; right: 20px;
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font-size: 2rem;
-    cursor: pointer;
-}
+        function closeModal() {
+            document.getElementById('order-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
 
-.modal-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-}
+        async function sendOrder(e) {
+            e.preventDefault();
+            const product = document.getElementById('order-product').value;
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const city = document.getElementById('cust-city').value;
 
-@media (max-width: 768px) {
-    .modal-body { grid-template-columns: 1fr; }
-    .header-actions { display: none; }
-}
+            const text = `🏎️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
+            const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
-.main-image-box {
-    position: relative;
-    background: #fff;
-    border-radius: 12px;
-    height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-}
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
 
-.main-image-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-.nav-arrow {
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.nav-arrow.prev { left: 8px; }
-.nav-arrow.next { right: 8px; }
-
-.thumbs-list { display: flex; gap: 8px; margin-top: 10px; }
-.thumbs-list img {
-    width: 50px; height: 50px;
-    object-fit: cover;
-    background: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 2px solid transparent;
-}
-
-.thumbs-list img.active { border-color: #ff2a5f; }
-
-.video-box { margin-top: 16px; }
-.video-box iframe { width: 100%; height: 160px; border-radius: 10px; }
-
-.modal-title { font-size: 1.4rem; color: #fff; margin: 8px 0; }
-.modal-price { font-size: 1.5rem; font-weight: 800; color: #ff2a5f; margin-bottom: 16px; }
-
-.desc-box {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    color: #cbd5e1;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.order-form input {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: #fff;
-    margin-bottom: 10px;
-    outline: none;
-}
-
-.order-form input:focus { border-color: #ff2a5f; }
-
-.btn-primary {
-    width: 100%;
-    padding: 14px;
-    background: #ff2a5f;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.btn-primary:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
-
-.btn-secondary {
-    display: block;
-    text-align: center;
-    color: #38bdf8;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-/* Футер */
-.footer {
-    padding: 30px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: center;
-    color: #64748b;
-    font-size: 0.85rem;
-}
+                if (data.ok) {
+                    alert('Дякуємо! Замовлення успішно відправлено.');
+                    closeModal();
+                    document.getElementById('order-form').reset();
+                } else {
+                    alert(`Помилка Telegram: ${data.description}`);
+                }
+            } catch (err) {
+                alert('Помилка мережі. Спробуйте ще раз.');
+            }
+        }
+    </script>
+    <script src="https://docs.google.com/spreadsheets/d/167qfhxHQyz7JOUv6m6WnOIo8VSXKnAhBxBiTUsUTr7w/gviz/tq?tqx=responseHandler:handleData"></script>
+</body>
+</html>
