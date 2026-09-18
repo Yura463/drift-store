@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Навігаційна панель -->
+    <!-- Навігація -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="brand-logo">
-                <img src="./logo.png" alt="TINY DRIFT Logo" class="nav-logo-img" onerror="this.style.display='none'">
+                <img src="./logo.png" alt="TINY DRIFT" class="nav-logo-img" onerror="this.style.display='none'">
                 <span>TINY DRIFT</span>
             </a>
             <div class="nav-contacts">
@@ -25,16 +25,17 @@
         </div>
     </nav>
 
-    <!-- Шапка сайту (Hero) -->
+    <!-- Шапка (Hero) -->
     <header class="hero-header">
+        <div class="header-overlay"></div>
         <div class="header-content">
-            <img src="./logo.png" alt="TINY DRIFT" class="hero-logo" onerror="this.style.display='none'">
-            <span class="badge-top">🏎️ Масштаб 1:24 | Повний привід 4WD</span>
+            <img src="./logo.png" alt="TINY DRIFT Logo" class="hero-logo-img" onerror="this.style.display='none'">
+            <div class="badge-top">🏎️ Масштаб 1:24 | Повний привід 4WD</div>
             <h1>TINY DRIFT</h1>
-            <p>Справжній клубний дрифт у твоій кімнаті. Керованість, висока деталізація та максимальний кут заносу!</p>
+            <p>Справжній клубний дрифт у твоїй кімнаті. Керованість, висока деталізація та максимальний кут заносу!</p>
             <div class="header-buttons">
-                <a href="#catalog" class="btn-hero">Переглянути каталог</a>
-                <a href="https://t.me/TinyDrift" target="_blank" class="btn-hero-tg">💬 Написати в Telegram</a>
+                <a href="#catalog" class="btn-main">Переглянути каталог</a>
+                <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg">💬 Написати в Telegram</a>
             </div>
         </div>
     </header>
@@ -72,13 +73,11 @@
 
     <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
-        <div class="modal-content fullscreen-modal">
+        <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            
             <div class="modal-scroll-area">
                 <div class="product-page-grid">
                     
-                    <!-- Ліва частина -->
                     <div class="product-media-section">
                         <div class="slider-container">
                             <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
@@ -89,7 +88,6 @@
                         <div id="video-wrapper" class="video-wrapper"></div>
                     </div>
 
-                    <!-- Права частина -->
                     <div class="product-info-section">
                         <span id="modal-stock-badge" class="stock-badge"></span>
                         <h2 id="modal-product-title" class="product-page-title"></h2>
@@ -129,9 +127,9 @@
         </div>
     </div>
 
-    <!-- Плаваюча кнопка Telegram -->
+    <!-- Кнопка Telegram -->
     <a href="https://t.me/TinyDrift" target="_blank" class="floating-tg-btn" title="Написати в Telegram">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .126 4.135l4.31 1.437 1.637 5.238a1.5 1.5 0 0 0 2.46.684l2.842-2.842 4.417 3.256a2.25 2.25 0 0 0 3.532-1.428l3.5-16.5a2.25 2.25 0 0 0-2.302-2.69zm-3.327 3.91l-8.1 7.29a.75.75 0 0 0-.214.417l-.466 2.493-.855-2.738 1.802-.6 7.833-6.862z" fill="#ffffff"/></svg>
+        💬
     </a>
 
     <!-- Футер -->
@@ -139,13 +137,12 @@
         <div class="container footer-content">
             <div class="footer-info">
                 <h3>TINY DRIFT</h3>
-                <p>Твій шопрум радіокерованих дрифт-машинок в Україні.</p>
+                <p>Магазин радіокерованих дрифт-машинок в Україні.</p>
             </div>
             <div class="footer-contacts">
                 <h4>Контакти:</h4>
-                <p>📞 Телефон: <a href="tel:+380982667919">+380 98 266 7919</a></p>
+                <p>📞 <a href="tel:+380982667919">+380 98 266 7919</a></p>
                 <p>💬 Telegram: <a href="https://t.me/TinyDrift" target="_blank">@TinyDrift</a></p>
-                <p>📍 Доставка: Нова Пошта (1-2 дні)</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -210,7 +207,7 @@
                             <h3 class="product-title">${item.name}</h3>
                             <div class="product-bottom">
                                 <span class="product-price">${item.price} грн</span>
-                                <button class="btn-buy" onclick="openModal(${i})">Детальніше</button>
+                                <button class="btn-buy" onclick="openModal(${i})">Купити</button>
                             </div>
                         </div>
                     </div>
@@ -278,7 +275,7 @@
                 }
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<h4>🎥 Огляд у дії:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<h4>🎥 Відео-огляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
