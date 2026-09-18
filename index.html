@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TINY STORE | Гаджети, іграшки, дрифт-машинки</title>
+    <title>TINY STORE | Гаджети, дрифт-моделі та іграшки</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Навігація / Шапка -->
+    <!-- Градієнтні фонові плями -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <!-- Навігація -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="brand-logo">
@@ -25,18 +29,41 @@
         </div>
     </nav>
 
-    <!-- Компактний блок переваг -->
-    <section class="quick-benefits">
-        <div class="container benefits-flex">
-            <div class="benefit-item">🚀 Швидка відправка НП</div>
-            <div class="benefit-item">⚡ Перевірка перед відправкою</div>
-            <div class="benefit-item">🎮 Топ гаджети та іграшки</div>
+    <!-- Головний баннер (Hero Block) -->
+    <header class="hero-section">
+        <div class="container hero-content">
+            <span class="hero-badge">🔥 ТОП ТОВАРИ ТА ГАДЖЕТИ ДЛЯ ДІТЕЙ І ПІДЛІТКІВ</span>
+            <h1 class="hero-title">ТВІЙ СВІТ <span class="gradient-text">РОЗВАГ ТА ГАДЖЕТІВ</span></h1>
+            <p class="hero-subtitle">Дрифт-машинки, геймпади для телефонів, дитячі бластери та найпопулярніші трендові товари з швидкою доставкою по Україні.</p>
+            <a href="#catalog" class="hero-cta-btn">Переглянути каталог ⚡</a>
+        </div>
+    </header>
+
+    <!-- Переваги магазину (Таблиці/Картки) -->
+    <section class="features-section">
+        <div class="container features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Швидка відправка</h3>
+                <p>Відправляємо Новою Поштою протягом 24 годин.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔥</div>
+                <h3>Трендові новинки</h3>
+                <p>Джойстики, іграшки та дрифт-моделі за кращими цінами.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Перевірка якості</h3>
+                <p>Кожен товар детально тестуємо перед відправкою.</p>
+            </div>
         </div>
     </section>
 
     <!-- Основний каталог -->
-    <main class="main-catalog-container">
+    <section id="catalog" class="main-catalog-container">
         <div class="container">
+            <h2 class="section-title">Каталог товарів</h2>
             
             <!-- Фільтри товарів -->
             <div class="category-filters">
@@ -51,11 +78,11 @@
                 <p class="loading-text">Завантаження товарів...</p>
             </div>
         </div>
-    </main>
+    </section>
 
     <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content glass-card">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-scroll-area">
                 <div class="product-page-grid">
@@ -106,7 +133,7 @@
     <footer class="main-footer">
         <div class="container footer-flex">
             <div>
-                <strong class="footer-brand">TINY STORE</strong>
+                <strong class="footer-brand">TINY <span class="accent-text">STORE</span></strong>
                 <p>Магазин трендових іграшок та гаджетів</p>
             </div>
             <div class="footer-contacts">
@@ -188,7 +215,7 @@
                     : `<span class="card-badge out-stock">✕ Немає в наявності</span>`;
 
                 container.innerHTML += `
-                    <div class="product-card">
+                    <div class="product-card glass-card">
                         <div class="card-img-wrapper">
                             ${stockBadgeHTML}
                             <img src="${item.image}" alt="${item.name}">
