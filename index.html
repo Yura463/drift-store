@@ -3,55 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drift RC Store | Радіокеровані дрифт-машинки 1:24</title>
+    <title>TINY DRIFT | Радіокеровані дрифт-машинки 1:24</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Шапка сайту -->
+    <!-- Навігаційна панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <img src="./logo.png" alt="TINY DRIFT Logo" class="nav-logo-img" onerror="this.style.display='none'">
+                <span>TINY DRIFT</span>
+            </a>
+            <div class="nav-contacts">
+                <a href="https://t.me/TinyDrift" target="_blank" class="nav-tg-btn">💬 Telegram</a>
+                <a href="tel:+380982667919" class="nav-phone-btn">📞 +380 98 266 7919</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Шапка сайту (Hero) -->
     <header class="hero-header">
         <div class="header-content">
-            <span class="badge-top">🔥 Топові RC Дрифт Машинки</span>
-            <h1>DRIFT RC STORE</h1>
-            <p>Відчуй справжній дрифт у масштабі 1:24. Повний привід 4WD, змінні колеса та максимальний драйв!</p>
+            <img src="./logo.png" alt="TINY DRIFT" class="hero-logo" onerror="this.style.display='none'">
+            <span class="badge-top">🏎️ Масштаб 1:24 | Повний привід 4WD</span>
+            <h1>TINY DRIFT</h1>
+            <p>Справжній клубний дрифт у твоій кімнаті. Керованість, висока деталізація та максимальний кут заносу!</p>
             <div class="header-buttons">
                 <a href="#catalog" class="btn-hero">Переглянути каталог</a>
-                <a href="tel:+380982667919" class="btn-hero-outline">📞 +380 98 266 7919</a>
+                <a href="https://t.me/TinyDrift" target="_blank" class="btn-hero-tg">💬 Написати в Telegram</a>
             </div>
         </div>
     </header>
 
-    <!-- Блок переваг -->
+    <!-- Переваги -->
     <section class="features-section">
         <div class="container">
             <div class="features-grid">
                 <div class="feature-card">
                     <span class="feature-icon">🚀</span>
-                    <h3>Швидка доставка</h3>
-                    <p>Відправка Новою Поштою в день замовлення по всій Україні.</p>
+                    <h3>Швидка відправка</h3>
+                    <p>Відправляємо Новою Поштою по всій Україні протягом 24 годин.</p>
                 </div>
                 <div class="feature-card">
-                    <span class="feature-icon">🏎️</span>
-                    <h3>Повний комплект</h3>
-                    <p>Машинка, пульт, акумулятор, зарядка та 2 комплекти гуми (дрифт + зачіп).</p>
+                    <span class="feature-icon">🎮</span>
+                    <h3>Готовий комплект (RTR)</h3>
+                    <p>Все включено: машинка, пульт, акумулятор, USB-зарядка та 2 комплекти шин.</p>
                 </div>
                 <div class="feature-card">
-                    <span class="feature-icon">🔍</span>
-                    <h3>Перевірка якості</h3>
-                    <p>Кожну машинку тестуємо перед пакуванням та відправкою.</p>
+                    <span class="feature-icon">🛠️</span>
+                    <h3>Перевірка перед відправкою</h3>
+                    <p>Кожну модель особисто тестуємо на працездатність перед відправкою.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Каталог товарів -->
+    <!-- Каталог -->
     <main id="catalog" class="container">
         <h2 class="section-title">Каталог моделей</h2>
         <div id="products-container" class="products-grid">
-            <p class="loading-text">Завантаження товарів...</p>
+            <p class="loading-text">Завантаження каталогу...</p>
         </div>
     </main>
 
@@ -63,7 +78,7 @@
             <div class="modal-scroll-area">
                 <div class="product-page-grid">
                     
-                    <!-- Ліва частина: Слайдер фото та Відео -->
+                    <!-- Ліва частина -->
                     <div class="product-media-section">
                         <div class="slider-container">
                             <button class="slider-btn prev-btn" onclick="moveSlide(-1)">❮</button>
@@ -71,36 +86,32 @@
                             <button class="slider-btn next-btn" onclick="moveSlide(1)">❯</button>
                         </div>
                         <div id="gallery-thumbs" class="thumbs-container"></div>
-                        
                         <div id="video-wrapper" class="video-wrapper"></div>
                     </div>
 
-                    <!-- Права частина: Інфо, характеристики, форма -->
+                    <!-- Права частина -->
                     <div class="product-info-section">
                         <span id="modal-stock-badge" class="stock-badge"></span>
                         <h2 id="modal-product-title" class="product-page-title"></h2>
                         <div id="modal-product-price" class="product-page-price"></div>
 
-                        <!-- Характеристики -->
                         <div class="specs-box">
-                            <h4>⚡ Основні характеристики:</h4>
+                            <h4>⚡ Комплектація та характеристики:</h4>
                             <ul>
                                 <li><strong>Масштаб:</strong> 1:24</li>
-                                <li><strong>Привод:</strong> Повний 4WD</li>
-                                <li><strong>Живлення:</strong> Акумулятор Li-ion</li>
-                                <li><strong>Комплект:</strong> Машинка, пульт, 4 дрифт-покришки, 4 гумові покришки, акумулятор, USB-кабель</li>
+                                <li><strong>Привод:</strong> Повний (4WD)</li>
+                                <li><strong>Швидкість:</strong> до 15 км/год</li>
+                                <li><strong>Комплект:</strong> Машинка, пульт 2.4GHz, Li-ion акумулятор, USB-кабель, 4 дрифт-покришки, 4 гумові покришки, конуси.</li>
                             </ul>
                         </div>
 
-                        <!-- Опис -->
                         <div class="description-box">
-                            <h4>📋 Детальний опис:</h4>
+                            <h4>📋 Опис моделі:</h4>
                             <p id="modal-product-desc"></p>
                         </div>
 
-                        <!-- Форма замовлення -->
                         <div class="checkout-box">
-                            <h3>🚀 Оформити швидке замовлення</h3>
+                            <h3>🚀 Швидке замовлення</h3>
                             <form id="order-form" onsubmit="sendOrder(event)">
                                 <input type="hidden" id="order-product">
                                 <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
@@ -108,6 +119,8 @@
                                 <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
                                 <button type="submit" id="submit-btn" class="btn-submit">Замовити зараз</button>
                             </form>
+                            <div class="modal-or-divider">або</div>
+                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Написати менеджеру в Telegram</a>
                         </div>
                     </div>
 
@@ -116,22 +129,27 @@
         </div>
     </div>
 
-    <!-- Футер з контактами -->
+    <!-- Плаваюча кнопка Telegram -->
+    <a href="https://t.me/TinyDrift" target="_blank" class="floating-tg-btn" title="Написати в Telegram">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .126 4.135l4.31 1.437 1.637 5.238a1.5 1.5 0 0 0 2.46.684l2.842-2.842 4.417 3.256a2.25 2.25 0 0 0 3.532-1.428l3.5-16.5a2.25 2.25 0 0 0-2.302-2.69zm-3.327 3.91l-8.1 7.29a.75.75 0 0 0-.214.417l-.466 2.493-.855-2.738 1.802-.6 7.833-6.862z" fill="#ffffff"/></svg>
+    </a>
+
+    <!-- Футер -->
     <footer class="main-footer">
         <div class="container footer-content">
             <div class="footer-info">
-                <h3>DRIFT RC STORE</h3>
-                <p>Магазин радіокерованих дрифт моделей в Україні.</p>
+                <h3>TINY DRIFT</h3>
+                <p>Твій шопрум радіокерованих дрифт-машинок в Україні.</p>
             </div>
             <div class="footer-contacts">
-                <h4>Контакти для зв'язку:</h4>
+                <h4>Контакти:</h4>
                 <p>📞 Телефон: <a href="tel:+380982667919">+380 98 266 7919</a></p>
-                <p>💬 Telegram: <a href="https://t.me/yura463" target="_blank">Написати в Telegram</a></p>
+                <p>💬 Telegram: <a href="https://t.me/TinyDrift" target="_blank">@TinyDrift</a></p>
                 <p>📍 Доставка: Нова Пошта (1-2 дні)</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Drift RC Store. Всі права захищені.</p>
+            <p>© 2026 TINY DRIFT. Всі права захищені.</p>
         </div>
     </footer>
 
@@ -162,7 +180,6 @@
                 const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
                 if (firstVal === 'name' || firstVal === 'назва') continue;
 
-                // Перевірка наявності з колонки G (індекс 6)
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
 
@@ -210,7 +227,6 @@
             document.getElementById('modal-product-desc').innerText = item.desc;
             document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
 
-            // Статус наявності у модалці
             const stockBadge = document.getElementById('modal-stock-badge');
             const submitBtn = document.getElementById('submit-btn');
             
@@ -226,7 +242,6 @@
                 submitBtn.innerText = 'Тимчасово немає в наявності';
             }
 
-            // Фото
             currentPhotos = [];
             if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
             if (item.photos && item.photos.length > 0) {
@@ -247,7 +262,6 @@
                 });
             }
 
-            // Відео
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
             
@@ -305,7 +319,7 @@
             const phone = document.getElementById('cust-phone').value;
             const city = document.getElementById('cust-city').value;
 
-            const text = `🏎️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
+            const text = `🏎️ НОВЕ ЗАМОВЛЕННЯ TINY DRIFT!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
             try {
