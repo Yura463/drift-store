@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TINY STORE | Трендові іграшки, геймпади та RC машинки</title>
+    <title>TINY STORE | Гаджети, іграшки, дрифт-машинки</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Шапка / Навігація -->
+    <!-- Навігація / Шапка -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="brand-logo">
-                <img src="./logo.png" alt="TINY STORE" class="nav-logo-img" onerror="this.style.display='none'">
+                <img src="./logo.png" alt="Logo" class="nav-logo-img" onerror="this.style.display='none'">
                 <span class="brand-text">TINY <span class="accent-text">STORE</span></span>
             </a>
             <div class="nav-contacts">
@@ -25,55 +25,31 @@
         </div>
     </nav>
 
-    <!-- Головний баннер (Hero) -->
-    <header class="hero-header">
-        <div class="hero-container">
-            <span class="tag-badge">🔥 ТОП ТОВАРИ ТА ГАДЖЕТИ ДЛЯ ДІТЕЙ І ПІДЛІТКІВ</span>
-            <h1 class="hero-title">ТВІЙ СВІТ РОЗВАГ ТА ГАДЖЕТІВ</h1>
-            <p class="hero-subtitle">Дрифт-машинки, геймпади для телефонів, дитячі бластери та найпопулярніші трендові товари з доставкою по Україні.</p>
-            <div class="hero-actions">
-                <a href="#catalog" class="btn-primary">Переглянути каталог</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Переваги -->
-    <section class="features-section">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="f-icon">🚀</div>
-                    <h3>Швидка відправка</h3>
-                    <p>Відправляємо Новою Поштою протягом 24 годин.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="f-icon">🎮</div>
-                    <h3>Трендові новинки</h3>
-                    <p>Джойстики, іграшки та дрифт-моделі за кращими цінами.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="f-icon">⚡</div>
-                    <h3>Перевірка якості</h3>
-                    <p>Кожен товар детально тестуємо перед відправкою.</p>
-                </div>
-            </div>
+    <!-- Компактний блок переваг -->
+    <section class="quick-benefits">
+        <div class="container benefits-flex">
+            <div class="benefit-item">🚀 Швидка відправка НП</div>
+            <div class="benefit-item">⚡ Перевірка перед відправкою</div>
+            <div class="benefit-item">🎮 Топ гаджети та іграшки</div>
         </div>
     </section>
 
-    <!-- Каталог із фільтрами -->
-    <main id="catalog" class="container">
-        <h2 class="section-title">Каталог товарів</h2>
-        
-        <!-- Кнопки фільтрів категорій -->
-        <div class="category-filters">
-            <button class="filter-btn active" onclick="filterCategory('all', this)">Всі товари</button>
-            <button class="filter-btn" onclick="filterCategory('drift', this)">🏎️ Дрифт машинки</button>
-            <button class="filter-btn" onclick="filterCategory('gamepad', this)">🎮 Геймпади та джойстики</button>
-            <button class="filter-btn" onclick="filterCategory('toys', this)">🔫 Іграшки та бластери</button>
-        </div>
+    <!-- Основний каталог -->
+    <main class="main-catalog-container">
+        <div class="container">
+            
+            <!-- Фільтри товарів -->
+            <div class="category-filters">
+                <button class="filter-btn active" onclick="filterCategory('all', this)">🔥 Всі товари</button>
+                <button class="filter-btn" onclick="filterCategory('drift', this)">🏎️ Дрифт машинки</button>
+                <button class="filter-btn" onclick="filterCategory('gamepad', this)">🎮 Геймпади та джойстики</button>
+                <button class="filter-btn" onclick="filterCategory('toys', this)">🔫 Бластери та іграшки</button>
+            </div>
 
-        <div id="products-container" class="products-grid">
-            <p class="loading-text">Завантаження товарів...</p>
+            <!-- Сітка товарів -->
+            <div id="products-container" class="products-grid">
+                <p class="loading-text">Завантаження товарів...</p>
+            </div>
         </div>
     </main>
 
@@ -100,21 +76,21 @@
                         <div id="modal-product-price" class="product-page-price"></div>
 
                         <div class="description-box">
-                            <h4>📋 Опис та комплектація:</h4>
+                            <h4>📋 Опис та характеристики:</h4>
                             <p id="modal-product-desc"></p>
                         </div>
 
                         <div class="checkout-box">
-                            <h3>🚀 Оформлення замовлення</h3>
+                            <h3>🚀 Швидке замовлення</h3>
                             <form id="order-form" onsubmit="sendOrder(event)">
                                 <input type="hidden" id="order-product">
                                 <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
                                 <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
                                 <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                                <button type="submit" id="submit-btn" class="btn-submit">Підтвердити замовлення</button>
+                                <button type="submit" id="submit-btn" class="btn-submit">Оформити замовлення</button>
                             </form>
-                            <div class="modal-or-divider">або замовити напряму</div>
-                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Написати менеджеру в Telegram</a>
+                            <div class="modal-or-divider">або</div>
+                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Написати в Telegram</a>
                         </div>
                     </div>
 
@@ -123,24 +99,20 @@
         </div>
     </div>
 
-    <!-- Кнопка зв'язку TG -->
+    <!-- Плаваюча кнопка Telegram -->
     <a href="https://t.me/TinyDrift" target="_blank" class="floating-tg-btn" title="Написати в Telegram">💬</a>
 
     <!-- Футер -->
     <footer class="main-footer">
-        <div class="container footer-content">
-            <div class="footer-info">
-                <h3 class="footer-logo">TINY STORE</h3>
-                <p>Магазин трендових іграшок та гаджетів в Україні.</p>
+        <div class="container footer-flex">
+            <div>
+                <strong class="footer-brand">TINY STORE</strong>
+                <p>Магазин трендових іграшок та гаджетів</p>
             </div>
             <div class="footer-contacts">
-                <h4>Контакти:</h4>
-                <p>📞 <a href="tel:+380982667919">+380 98 266 7919</a></p>
-                <p>💬 Telegram: <a href="https://t.me/TinyDrift" target="_blank">@TinyDrift</a></p>
+                <a href="tel:+380982667919">📞 +380 98 266 7919</a>
+                <a href="https://t.me/TinyDrift" target="_blank">💬 @TinyDrift</a>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 TINY STORE. Всі права захищено.</p>
         </div>
     </footer>
 
@@ -175,7 +147,6 @@
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
                 
-                // Категорія (якщо є в колонці H / 7, або визначаємо за назвою)
                 let category = row[7] && row[7].v ? String(row[7].v).toLowerCase().trim() : 'drift';
                 const nameLower = (row[0] && row[0].v ? row[0].v : '').toLowerCase();
                 if (nameLower.includes('джойстик') || nameLower.includes('геймпад') || nameLower.includes('gamepad')) category = 'gamepad';
@@ -214,7 +185,7 @@
             filtered.forEach(item => {
                 const stockBadgeHTML = item.available 
                     ? `<span class="card-badge in-stock">✓ В наявності</span>`
-                    : `<span class="card-badge out-stock">✕ Під замовлення</span>`;
+                    : `<span class="card-badge out-stock">✕ Немає в наявності</span>`;
 
                 container.innerHTML += `
                     <div class="product-card">
@@ -225,8 +196,8 @@
                         <div class="product-info">
                             <h3 class="product-title">${item.name}</h3>
                             <div class="product-bottom">
-                                <span class="product-price">${item.price} грн</span>
-                                <button class="btn-buy" onclick="openModal(${item.id})">Купити</button>
+                                <div class="price-tag">${item.price} <small>грн</small></div>
+                                <button class="btn-buy" onclick="openModal(${item.id})">Замовити</button>
                             </div>
                         </div>
                     </div>
@@ -257,7 +228,7 @@
                 stockBadge.className = 'stock-badge in-stock-badge';
                 stockBadge.innerText = '✓ В наявності';
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Підтвердити замовлення';
+                submitBtn.innerText = 'Оформити замовлення';
             } else {
                 stockBadge.className = 'stock-badge out-stock-badge';
                 stockBadge.innerText = '✕ Немає в наявності';
@@ -295,7 +266,7 @@
                 else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<h4>🎥 Огляд товару:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<h4>🎥 Відео-огляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
@@ -344,7 +315,7 @@
                 const data = await response.json();
 
                 if (data.ok) {
-                    alert('Дякуємо! Замовлення прийнято, ми зателефонуємо або напишемо вам.');
+                    alert('Дякуємо! Замовлення прийнято, чекайте на дзвінок/повідомлення.');
                     closeModal();
                     document.getElementById('order-form').reset();
                 } else {
