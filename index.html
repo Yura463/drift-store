@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TINY DRIFT | RC Drift Store 1:24</title>
+    <title>TINY STORE | Трендові іграшки, геймпади та RC машинки</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,32 +11,28 @@
 </head>
 <body>
 
-    <!-- Навігація -->
+    <!-- Шапка / Навігація -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="brand-logo">
-                <img src="./logo.png" alt="TINY DRIFT" class="nav-logo-img" onerror="this.style.display='none'">
-                <span class="brand-text">TINY DRIFT</span>
+                <img src="./logo.png" alt="TINY STORE" class="nav-logo-img" onerror="this.style.display='none'">
+                <span class="brand-text">TINY <span class="accent-text">STORE</span></span>
             </a>
             <div class="nav-contacts">
-                <a href="https://t.me/TinyDrift" target="_blank" class="nav-tg-btn">💬 Telegram</a>
                 <a href="tel:+380982667919" class="nav-phone-btn">📞 +380 98 266 7919</a>
+                <a href="https://t.me/TinyDrift" target="_blank" class="nav-tg-btn">💬 Telegram</a>
             </div>
         </div>
     </nav>
 
-    <!-- Шапка (Hero) -->
+    <!-- Головний баннер (Hero) -->
     <header class="hero-header">
         <div class="hero-container">
-            <div class="logo-preview-box">
-                <img src="./logo.png" alt="TINY DRIFT LOGO" class="main-logo-img" onerror="this.src='https://via.placeholder.com/150/000000/FFFFFF?text=TINY+DRIFT'">
-            </div>
-            <span class="tag-badge">🏎️ RC DRIFT CLUB 1:24 | 4WD</span>
-            <h1 class="hero-title">TINY DRIFT</h1>
-            <p class="hero-subtitle">Преміальні радіокеровані дрифт-моделі. Справжній занос, висока деталізація та повна готовність до заїздів прямо з коробки.</p>
+            <span class="tag-badge">🔥 ТОП ТОВАРИ ТА ГАДЖЕТИ ДЛЯ ДІТЕЙ І ПІДЛІТКІВ</span>
+            <h1 class="hero-title">ТВІЙ СВІТ РОЗВАГ ТА ГАДЖЕТІВ</h1>
+            <p class="hero-subtitle">Дрифт-машинки, геймпади для телефонів, дитячі бластери та найпопулярніші трендові товари з доставкою по Україні.</p>
             <div class="hero-actions">
-                <a href="#catalog" class="btn-primary">Каталог моделей</a>
-                <a href="https://t.me/TinyDrift" target="_blank" class="btn-secondary">💬 Менеджер в Telegram</a>
+                <a href="#catalog" class="btn-primary">Переглянути каталог</a>
             </div>
         </div>
     </header>
@@ -47,28 +43,37 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="f-icon">🚀</div>
-                    <h3>Швидка доставка</h3>
-                    <p>Відправляємо Новою Поштою по всій Україні в день замовлення.</p>
+                    <h3>Швидка відправка</h3>
+                    <p>Відправляємо Новою Поштою протягом 24 годин.</p>
                 </div>
                 <div class="feature-card">
                     <div class="f-icon">🎮</div>
-                    <h3>RTR Комплект</h3>
-                    <p>Все включено: модель, пульт 2.4GHz, акумулятор, кабель та додатковий сет шин.</p>
+                    <h3>Трендові новинки</h3>
+                    <p>Джойстики, іграшки та дрифт-моделі за кращими цінами.</p>
                 </div>
                 <div class="feature-card">
                     <div class="f-icon">⚡</div>
-                    <h3>Перевірка та тест</h3>
-                    <p>Кожну машинку особисто тестуємо перед відправкою клієнту.</p>
+                    <h3>Перевірка якості</h3>
+                    <p>Кожен товар детально тестуємо перед відправкою.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Каталог -->
+    <!-- Каталог із фільтрами -->
     <main id="catalog" class="container">
-        <h2 class="section-title">Каталог машин</h2>
+        <h2 class="section-title">Каталог товарів</h2>
+        
+        <!-- Кнопки фільтрів категорій -->
+        <div class="category-filters">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">Всі товари</button>
+            <button class="filter-btn" onclick="filterCategory('drift', this)">🏎️ Дрифт машинки</button>
+            <button class="filter-btn" onclick="filterCategory('gamepad', this)">🎮 Геймпади та джойстики</button>
+            <button class="filter-btn" onclick="filterCategory('toys', this)">🔫 Іграшки та бластери</button>
+        </div>
+
         <div id="products-container" class="products-grid">
-            <p class="loading-text">Завантаження товару...</p>
+            <p class="loading-text">Завантаження товарів...</p>
         </div>
     </main>
 
@@ -94,32 +99,22 @@
                         <h2 id="modal-product-title" class="product-page-title"></h2>
                         <div id="modal-product-price" class="product-page-price"></div>
 
-                        <div class="specs-box">
-                            <h4>⚡ Характеристики:</h4>
-                            <ul>
-                                <li><strong>Масштаб:</strong> 1:24</li>
-                                <li><strong>Привід:</strong> Повний 4WD</li>
-                                <li><strong>Швидкість:</strong> до 15 км/год</li>
-                                <li><strong>Комплектація:</strong> Авто, пульт, Li-ion акумулятор, USB-зарядка, 4 дрифт-покришки, 4 гумові покришки, конуси.</li>
-                            </ul>
-                        </div>
-
                         <div class="description-box">
-                            <h4>📋 Опис:</h4>
+                            <h4>📋 Опис та комплектація:</h4>
                             <p id="modal-product-desc"></p>
                         </div>
 
                         <div class="checkout-box">
-                            <h3>🚀 Швидке замовлення</h3>
+                            <h3>🚀 Оформлення замовлення</h3>
                             <form id="order-form" onsubmit="sendOrder(event)">
                                 <input type="hidden" id="order-product">
                                 <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
                                 <input type="tel" id="cust-phone" placeholder="+380XXXXXXXXX" required>
                                 <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
-                                <button type="submit" id="submit-btn" class="btn-submit">Оформити замовлення</button>
+                                <button type="submit" id="submit-btn" class="btn-submit">Підтвердити замовлення</button>
                             </form>
-                            <div class="modal-or-divider">або</div>
-                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Замовити через Telegram</a>
+                            <div class="modal-or-divider">або замовити напряму</div>
+                            <a href="https://t.me/TinyDrift" target="_blank" class="btn-tg-direct">💬 Написати менеджеру в Telegram</a>
                         </div>
                     </div>
 
@@ -128,15 +123,15 @@
         </div>
     </div>
 
-    <!-- Кнопка TG -->
+    <!-- Кнопка зв'язку TG -->
     <a href="https://t.me/TinyDrift" target="_blank" class="floating-tg-btn" title="Написати в Telegram">💬</a>
 
     <!-- Футер -->
     <footer class="main-footer">
         <div class="container footer-content">
             <div class="footer-info">
-                <h3 class="footer-logo">TINY DRIFT</h3>
-                <p>Твій шопром радіокерованого дрифту в Україні.</p>
+                <h3 class="footer-logo">TINY STORE</h3>
+                <p>Магазин трендових іграшок та гаджетів в Україні.</p>
             </div>
             <div class="footer-contacts">
                 <h4>Контакти:</h4>
@@ -145,7 +140,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 TINY DRIFT. All rights reserved.</p>
+            <p>© 2026 TINY STORE. Всі права захищено.</p>
         </div>
     </footer>
 
@@ -155,6 +150,7 @@
         let productsData = [];
         let currentPhotos = [];
         let currentPhotoIndex = 0;
+        let activeCategory = 'all';
 
         function handleData(json) {
             const rows = json.table.rows;
@@ -178,20 +174,44 @@
 
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
+                
+                // Категорія (якщо є в колонці H / 7, або визначаємо за назвою)
+                let category = row[7] && row[7].v ? String(row[7].v).toLowerCase().trim() : 'drift';
+                const nameLower = (row[0] && row[0].v ? row[0].v : '').toLowerCase();
+                if (nameLower.includes('джойстик') || nameLower.includes('геймпад') || nameLower.includes('gamepad')) category = 'gamepad';
+                else if (nameLower.includes('пістолет') || nameLower.includes('бластер') || nameLower.includes('іграшка')) category = 'toys';
 
                 const item = {
                     id: i,
-                    name: row[0] && row[0].v !== null ? row[0].v : 'RC Drift Car 1:24',
+                    name: row[0] && row[0].v !== null ? row[0].v : 'Товар',
                     price: row[1] && row[1].v !== null ? row[1].v : '0',
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
-                    desc: row[4] && row[4].v ? row[4].v : 'Потужна дрифт-машинка 1:24 із повним приводом (4WD).',
+                    desc: row[4] && row[4].v ? row[4].v : 'Детальний опис товару.',
                     video: row[5] && row[5].v ? row[5].v : '',
-                    available: isAvailable
+                    available: isAvailable,
+                    category: category
                 };
 
                 productsData.push(item);
+            }
+            renderProducts();
+        }
 
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            const filtered = activeCategory === 'all' 
+                ? productsData 
+                : productsData.filter(p => p.category === activeCategory);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="loading-text">У цій категорії поки немає товарів.</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
                 const stockBadgeHTML = item.available 
                     ? `<span class="card-badge in-stock">✓ В наявності</span>`
                     : `<span class="card-badge out-stock">✕ Під замовлення</span>`;
@@ -206,12 +226,19 @@
                             <h3 class="product-title">${item.name}</h3>
                             <div class="product-bottom">
                                 <span class="product-price">${item.price} грн</span>
-                                <button class="btn-buy" onclick="openModal(${i})">Купити</button>
+                                <button class="btn-buy" onclick="openModal(${item.id})">Купити</button>
                             </div>
                         </div>
                     </div>
                 `;
-            }
+            });
+        }
+
+        function filterCategory(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts();
         }
 
         function openModal(index) {
@@ -230,7 +257,7 @@
                 stockBadge.className = 'stock-badge in-stock-badge';
                 stockBadge.innerText = '✓ В наявності';
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Оформити замовлення';
+                submitBtn.innerText = 'Підтвердити замовлення';
             } else {
                 stockBadge.className = 'stock-badge out-stock-badge';
                 stockBadge.innerText = '✕ Немає в наявності';
@@ -260,21 +287,15 @@
 
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
-            
             if (item.video && item.video.trim()) {
                 let rawUrl = item.video.trim();
                 let videoId = '';
-
-                if (rawUrl.includes('youtu.be/')) {
-                    videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
-                } else if (rawUrl.includes('watch?v=')) {
-                    videoId = rawUrl.split('watch?v=')[1].split('&')[0];
-                } else if (rawUrl.includes('shorts/')) {
-                    videoId = rawUrl.split('shorts/')[1].split('?')[0];
-                }
+                if (rawUrl.includes('youtu.be/')) videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
+                else if (rawUrl.includes('watch?v=')) videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+                else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<h4>🎥 Відео-огляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<h4>🎥 Огляд товару:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
@@ -315,7 +336,7 @@
             const phone = document.getElementById('cust-phone').value;
             const city = document.getElementById('cust-city').value;
 
-            const text = `🏎️ НОВЕ ЗАМОВЛЕННЯ TINY DRIFT!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
+            const text = `🛍️ НОВЕ ЗАМОВЛЕННЯ TINY STORE!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
             try {
@@ -323,11 +344,11 @@
                 const data = await response.json();
 
                 if (data.ok) {
-                    alert('Дякуємо! Замовлення успішно відправлено.');
+                    alert('Дякуємо! Замовлення прийнято, ми зателефонуємо або напишемо вам.');
                     closeModal();
                     document.getElementById('order-form').reset();
                 } else {
-                    alert(`Помилка Telegram: ${data.description}`);
+                    alert(`Помилка: ${data.description}`);
                 }
             } catch (err) {
                 alert('Помилка мережі. Спробуйте ще раз.');
