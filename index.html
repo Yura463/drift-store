@@ -22,7 +22,7 @@
         <img src="./logo.jpg" class="bg-logo bg-logo-5" alt="">
     </div>
 
-    <!-- Шапка (тепер ховається при скролі) -->
+    <!-- Шапка (прокручується разом з контентом) -->
     <header class="header">
         <div class="container header-content">
             <a href="#" class="logo">
@@ -169,7 +169,7 @@
                     : `<span class="badge out-stock">Немає в наявності</span>`;
 
                 const priceHTML = item.oldPrice 
-                    ? `<div class="price"><span class="old-price" style="text-decoration: line-through; opacity: 0.6; font-size: 0.9em; margin-right: 5px;">${item.oldPrice} грн</span> ${item.price} <span>грн</span></div>`
+                    ? `<div class="price"><span class="old-price">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span></div>`
                     : `<div class="price">${item.price} <span>грн</span></div>`;
 
                 container.innerHTML += `
@@ -198,7 +198,7 @@
             
             const modalPrice = document.getElementById('modal-product-price');
             if (item.oldPrice) {
-                modalPrice.innerHTML = `<span style="text-decoration: line-through; color: #94a3b8; font-size: 1.1rem; margin-right: 8px;">${item.oldPrice} грн</span> ${item.price} грн`;
+                modalPrice.innerHTML = `<span class="old-price" style="font-size: 1.1rem;">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span>`;
             } else {
                 modalPrice.innerText = `${item.price} грн`;
             }
