@@ -17,10 +17,10 @@
     <!-- Шапка -->
     <header class="header">
         <div class="container header-content">
-         <a href="#" class="logo">
-    <img src="./logo.jpg" alt="TinyDrift Logo" class="logo-img">
-    <span class="logo-bold">TINY</span><span class="logo-accent">DRIFT</span>
-</a>
+            <a href="#" class="logo">
+                <img src="./logo.jpg" alt="TinyDrift Logo" class="logo-img">
+                <span class="logo-bold">TINY</span><span class="logo-accent">DRIFT</span>
+            </a>
             <div class="header-actions">
                 <a href="tel:+380982667919" class="phone-link">+380 98 266 7919</a>
                 <a href="https://t.me/TinyDrift" target="_blank" class="tg-link">Telegram ⚡</a>
@@ -56,6 +56,7 @@
             <button class="modal-close" onclick="closeModal()">&times;</button>
             <div class="modal-body">
                 
+                <!-- ЗЛІВА: Медіа (Слайдер фото + Відео) -->
                 <div class="modal-media">
                     <div class="main-image-box">
                         <button class="nav-arrow prev" onclick="moveSlide(-1)">❮</button>
@@ -66,19 +67,21 @@
                     <div id="video-wrapper" class="video-box"></div>
                 </div>
 
+                <!-- СПРАВА: Інформація, опис та форма замовлення -->
                 <div class="modal-info">
                     <div id="modal-stock-badge" class="badge"></div>
                     <h2 id="modal-product-title" class="modal-title"></h2>
                     <div id="modal-product-price" class="modal-price"></div>
 
                     <div class="desc-box">
+                        <h4>📋 Детальний опис:</h4>
                         <p id="modal-product-desc"></p>
                     </div>
 
                     <form id="order-form" class="order-form" onsubmit="sendOrder(event)">
                         <input type="hidden" id="order-product">
                         <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
-                        <input type="tel" id="cust-phone" placeholder="Номер телефону" required>
+                        <input type="tel" id="cust-phone" placeholder="Номер телефону (+380...)" required>
                         <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
                         <button type="submit" id="submit-btn" class="btn-primary">Замовити зараз</button>
                     </form>
@@ -129,16 +132,20 @@
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
 
+                // Зчитування старої ціни з колонки H (індекс 7) або B (індекс 1)
+                const priceVal = row[1] && row[1].v !== null ? row[1].v : '0';
+                const oldPriceVal = row[7] && row[7].v !== null ? row[7].v : null;
+
                 const item = {
                     id: i,
                     name: row[0] && row[0].v !== null ? row[0].v : 'Товар',
-                    price: row[1] && row[1].v !== null ? row[1].v : '0',
+                    price: oldPriceVal ? oldPriceVal : priceVal, // Акційна/актуальна ціна
+                    oldPrice: oldPriceVal ? priceVal : null,     // Стара ціна (якщо є знижка)
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
                     desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
                     video: row[5] && row[5].v ? row[5].v : '',
-                    available: isAvailable,
-                    oldPrice: row[7] && row[7].v ? row[7].v : null // Зчитуємо стару ціну з колонки H
+                    available: isAvailable
                 };
 
                 productsData.push(item);
@@ -156,7 +163,7 @@
                     : `<span class="badge out-stock">Немає в наявності</span>`;
 
                 const priceHTML = item.oldPrice 
-                    ? `<div class="price"><span class="old-price">${item.oldPrice} грн</span> ${item.price} <span>грн</span></div>`
+                    ? `<div class="price"><span class="old-price" style="text-decoration: line-through; opacity: 0.6; font-size: 0.9em; margin-right: 5px;">${item.oldPrice} грн</span> ${item.price} <span>грн</span></div>`
                     : `<div class="price">${item.price} <span>грн</span></div>`;
 
                 container.innerHTML += `
@@ -185,7 +192,7 @@
             
             const modalPrice = document.getElementById('modal-product-price');
             if (item.oldPrice) {
-                modalPrice.innerHTML = `<span class="old-price" style="font-size: 1.1rem; text-decoration: line-through; color: #64748b; margin-right: 8px;">${item.oldPrice} грн</span> ${item.price} грн`;
+                modalPrice.innerHTML = `<span style="text-decoration: line-through; color: #94a3b8; font-size: 1.1rem; margin-right: 8px;">${item.oldPrice} грн</span> ${item.price} грн`;
             } else {
                 modalPrice.innerText = `${item.price} грн`;
             }
@@ -208,6 +215,7 @@
                 submitBtn.innerText = 'Немає в наявності';
             }
 
+            // Фото галерея
             currentPhotos = [];
             if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
             if (item.photos && item.photos.length > 0) {
@@ -226,6 +234,7 @@
                 });
             }
 
+            // Відео
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
             if (item.video && item.video.trim()) {
@@ -236,7 +245,7 @@
                 else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
 
                 if (videoId) {
-                    videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    videoWrapper.innerHTML = `<h4 style="margin: 10px 0 5px; font-size: 0.9rem; color: #94a3b8;">🎥 Відеоогляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="width:100%; height:200px; border-radius:10px;"></iframe>`;
                 }
             }
 
@@ -254,7 +263,7 @@
         }
 
         function moveSlide(direction) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             currentPhotoIndex += direction;
             if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
             if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
