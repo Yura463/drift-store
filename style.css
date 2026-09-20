@@ -473,24 +473,13 @@ h1, h2, h3, h4 {
     border-radius: 50%;
     object-fit: cover;
 }
-.product-card {
-    background: #1f2833;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-image {
-    width: 100%;
-    height: 220px;
-    object-fit: contain;
-    background: #0b0c10;
-    padding: 10px;
-}
-
+/* Обмеження розміру для всіх картинок товарів */
+.product-card img, 
+.product-img, 
 .product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    max-width: 100% !important;
+    max-height: 200px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
 }
