@@ -11,10 +11,18 @@
 </head>
 <body>
 
+    <!-- Світлові плями та хаотичні логотипи на фоні -->
     <div class="glow-bg glow-red"></div>
     <div class="glow-bg glow-blue"></div>
+    <div class="bg-pattern">
+        <img src="./logo.jpg" class="bg-logo bg-logo-1" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-2" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-3" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-4" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-5" alt="">
+    </div>
 
-    <!-- Шапка -->
+    <!-- Шапка (тепер ховається при скролі) -->
     <header class="header">
         <div class="container header-content">
             <a href="#" class="logo">
@@ -36,7 +44,6 @@
             <p class="hero-subtitle">Радіокеровані дрифт-машинки, міні-моделі та трендові девайси з доставкою по Україні!</p>
             <div class="hero-buttons">
                 <a href="#catalog" class="btn-primary-hero">Переглянути каталог</a>
-                <a href="https://t.me/TinyDrift" target="_blank" class="btn-secondary-hero">Консультація в TG</a>
             </div>
         </div>
     </section>
@@ -132,15 +139,14 @@
                 const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
                 const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
 
-                // Зчитування старої ціни з колонки H (індекс 7) або B (індекс 1)
                 const priceVal = row[1] && row[1].v !== null ? row[1].v : '0';
                 const oldPriceVal = row[7] && row[7].v !== null ? row[7].v : null;
 
                 const item = {
                     id: i,
                     name: row[0] && row[0].v !== null ? row[0].v : 'Товар',
-                    price: oldPriceVal ? oldPriceVal : priceVal, // Акційна/актуальна ціна
-                    oldPrice: oldPriceVal ? priceVal : null,     // Стара ціна (якщо є знижка)
+                    price: oldPriceVal ? oldPriceVal : priceVal,
+                    oldPrice: oldPriceVal ? priceVal : null,
                     image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
                     photos: row[3] && row[3].v ? row[3].v.split(',') : [],
                     desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
@@ -215,7 +221,6 @@
                 submitBtn.innerText = 'Немає в наявності';
             }
 
-            // Фото галерея
             currentPhotos = [];
             if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
             if (item.photos && item.photos.length > 0) {
@@ -234,7 +239,6 @@
                 });
             }
 
-            // Відео
             const videoWrapper = document.getElementById('video-wrapper');
             videoWrapper.innerHTML = '';
             if (item.video && item.video.trim()) {
