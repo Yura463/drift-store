@@ -279,3 +279,18 @@ body {
     font-size: 0.85rem;
 }
 .footer-content { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+/* Стилі для акційної ціни */
+.sale-price {
+    color: #ef4444 !important; /* Яскраво-червоний колір */
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4); /* М'яке неонове сяйво */
+}
+
+/* Стара закреслена ціна */
+.old-price {
+    text-decoration: line-through;
+    color: #64748b;
+    font-size: 0.9em;
+    margin-right: 6px;
+    font-weight: 500;
+}
