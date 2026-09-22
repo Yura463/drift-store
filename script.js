@@ -1,6 +1,6 @@
 // Конфігурація вашого Telegram бота
-const TELEGRAM_BOT_TOKEN = "ВАШ_BOT_TOKEN";
-const TELEGRAM_CHAT_ID = 8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0";
+const TELEGRAM_BOT_TOKEN = "8504501879:AAFnV-Bga_dZoOgCGYu5aEdbCJcB760zSG0";
+const TELEGRAM_CHAT_ID = "1984152843";
 
 // Масив кошика
 let cart = [];
