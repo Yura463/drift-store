@@ -4,7 +4,6 @@ const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
 let productsData = [];
 let currentPhotos = [];
 let currentPhotoIndex = 0;
-let currentActiveProduct = null;
 let cart = [];
 
 // 1. Завантаження товарів із Google Таблиці
@@ -40,9 +39,9 @@ function handleData(json) {
             price: oldPriceVal ? oldPriceVal : priceVal,
             oldPrice: oldPriceVal ? priceVal : null,
             image: row[2] && row[2].v ? row[2].v : 'https://via.placeholder.com/300',
-            photos: row[3] && row[3].v ? row[3].v.split(',') : [],
+            photos: row[3] && row[3].v ? String(row[3].v).split(',') : [],
             desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
-            video: row[5] && row[5].v ? row[5].v : '',
+            video: row[5] && row[5].v ? String(row[5].v) : '',
             available: isAvailable
         };
 
@@ -51,9 +50,10 @@ function handleData(json) {
     renderProducts();
 }
 
-// 2. Рендер товарів на сторінці (Кнопка відкриває модальне вікно товару)
+// 2. Рендер товарів у каталозі
 function renderProducts() {
     const container = document.getElementById('products-container');
+    if (!container) return;
     container.innerHTML = '';
 
     productsData.forEach(item => {
@@ -88,71 +88,98 @@ function openModal(index) {
     const item = productsData.find(p => p.id === index);
     if (!item) return;
 
-    currentActiveProduct = item;
+    const modal = document.getElementById('order-modal');
+    if (!modal) return;
 
-    document.getElementById('modal-product-title').innerText = item.name;
+    const titleEl = document.getElementById('modal-product-title');
+    if (titleEl) titleEl.innerText = item.name;
     
     const modalPrice = document.getElementById('modal-product-price');
-    if (item.oldPrice) {
-        modalPrice.innerHTML = `<span class="old-price" style="font-size: 1.1rem;">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span>`;
-    } else {
-        modalPrice.innerText = `${item.price} грн`;
+    if (modalPrice) {
+        if (item.oldPrice) {
+            modalPrice.innerHTML = `<span class="old-price" style="font-size: 1.1rem;">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span>`;
+        } else {
+            modalPrice.innerText = `${item.price} грн`;
+        }
     }
 
-    document.getElementById('modal-product-desc').innerText = item.desc;
+    const descEl = document.getElementById('modal-product-desc');
+    if (descEl) descEl.innerText = item.desc;
 
     const stockBadge = document.getElementById('modal-stock-badge');
     const addCartBtn = document.getElementById('modal-add-cart-btn');
     
-    if (item.available) {
-        stockBadge.className = 'badge in-stock';
-        stockBadge.innerText = 'В наявності';
-        addCartBtn.disabled = false;
-        addCartBtn.onclick = () => { addToCart(item); closeModal(); openCartModal(); };
-    } else {
-        stockBadge.className = 'badge out-stock';
-        stockBadge.innerText = 'Немає в наявності';
-        addCartBtn.disabled = true;
+    if (stockBadge) {
+        if (item.available) {
+            stockBadge.className = 'badge in-stock';
+            stockBadge.innerText = 'В наявності';
+        } else {
+            stockBadge.className = 'badge out-stock';
+            stockBadge.innerText = 'Немає в наявності';
+        }
     }
 
+    if (addCartBtn) {
+        if (item.available) {
+            addCartBtn.disabled = false;
+            addCartBtn.onclick = function() {
+                addToCart(item);
+                closeModal();
+                openCartModal();
+            };
+        } else {
+            addCartBtn.disabled = true;
+        }
+    }
+
+    // Фото та слайдер
     currentPhotos = [];
     if (item.image && item.image.trim()) currentPhotos.push(item.image.trim());
     if (item.photos && item.photos.length > 0) {
         item.photos.forEach(p => { 
-            if (p && p.trim() && !currentPhotos.includes(p.trim())) currentPhotos.push(p.trim()); 
+            const cleanP = p ? p.trim() : '';
+            if (cleanP && !currentPhotos.includes(cleanP)) currentPhotos.push(cleanP); 
         });
     }
     currentPhotoIndex = 0;
     updateSlider();
 
     const thumbsContainer = document.getElementById('gallery-thumbs');
-    thumbsContainer.innerHTML = '';
-    if (currentPhotos.length > 1) {
-        currentPhotos.forEach((photo, idx) => {
-            thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="event.stopPropagation(); setSlide(${idx})">`;
-        });
-    }
-
-    const videoWrapper = document.getElementById('video-wrapper');
-    videoWrapper.innerHTML = '';
-    if (item.video && item.video.trim()) {
-        let rawUrl = item.video.trim();
-        let videoId = '';
-        if (rawUrl.includes('youtu.be/')) videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
-        else if (rawUrl.includes('watch?v=')) videoId = rawUrl.split('watch?v=')[1].split('&')[0];
-        else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
-
-        if (videoId) {
-            videoWrapper.innerHTML = `<h4 style="margin: 10px 0 5px; font-size: 0.9rem; color: #94a3b8;">🎥 Відеоогляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="width:100%; height:180px; border-radius:10px;"></iframe>`;
+    if (thumbsContainer) {
+        thumbsContainer.innerHTML = '';
+        if (currentPhotos.length > 1) {
+            currentPhotos.forEach((photo, idx) => {
+                thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="event.stopPropagation(); setSlide(${idx})">`;
+            });
         }
     }
 
-    document.getElementById('order-modal').classList.add('active');
+    // Відео
+    const videoWrapper = document.getElementById('video-wrapper');
+    if (videoWrapper) {
+        videoWrapper.innerHTML = '';
+        if (item.video && item.video.trim()) {
+            let rawUrl = item.video.trim();
+            let videoId = '';
+            if (rawUrl.includes('youtu.be/')) videoId = rawUrl.split('youtu.be/')[1].split('?')[0];
+            else if (rawUrl.includes('watch?v=')) videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+            else if (rawUrl.includes('shorts/')) videoId = rawUrl.split('shorts/')[1].split('?')[0];
+
+            if (videoId) {
+                videoWrapper.innerHTML = `<h4 style="margin: 10px 0 5px; font-size: 0.9rem; color: #94a3b8;">🎥 Відеоогляд:</h4><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="width:100%; height:180px; border-radius:10px;"></iframe>`;
+            }
+        }
+    }
+
+    modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
 function updateSlider() {
-    document.getElementById('main-slide-img').src = currentPhotos[currentPhotoIndex];
+    const mainImg = document.getElementById('main-slide-img');
+    if (mainImg && currentPhotos[currentPhotoIndex]) {
+        mainImg.src = currentPhotos[currentPhotoIndex];
+    }
     const thumbs = document.querySelectorAll('.thumbs-list img');
     thumbs.forEach((t, idx) => {
         if (idx === currentPhotoIndex) t.classList.add('active');
@@ -161,7 +188,7 @@ function updateSlider() {
 }
 
 function moveSlide(direction) {
-    if (event) event.stopPropagation();
+    if (window.event) window.event.stopPropagation();
     currentPhotoIndex += direction;
     if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
     if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
@@ -174,19 +201,12 @@ function setSlide(index) {
 }
 
 function closeModal() {
-    document.getElementById('order-modal').classList.remove('active');
+    const modal = document.getElementById('order-modal');
+    if (modal) modal.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
-// 4. ЛОГІКА КОШИКА
-function quickAddToCart(id) {
-    const item = productsData.find(p => p.id === id);
-    if (item && item.available) {
-        addToCart(item);
-        openCartModal();
-    }
-}
-
+// 4. Логіка Кошика
 function addToCart(item) {
     const existing = cart.find(c => c.id === item.id);
     if (existing) {
@@ -227,8 +247,10 @@ function updateCartUI() {
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-    cartBadge.innerText = totalQty;
-    totalEl.innerText = `${totalPrice} грн`;
+    if (cartBadge) cartBadge.innerText = totalQty;
+    if (totalEl) totalEl.innerText = `${totalPrice} грн`;
+
+    if (!container) return;
 
     if (cart.length === 0) {
         container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:20px;">Ваш кошик порожній.</p>';
@@ -256,20 +278,23 @@ function updateCartUI() {
 }
 
 function openCartModal() {
-    document.getElementById('cartModal').classList.add('active');
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) cartModal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
 function closeCartModal() {
-    document.getElementById('cartModal').classList.remove('active');
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) cartModal.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
 function toggleFab() {
-    document.getElementById('fabMenu').classList.toggle('active');
+    const fabMenu = document.getElementById('fabMenu');
+    if (fabMenu) fabMenu.classList.toggle('active');
 }
 
-// 5. Відправка замовлення з кошика в Telegram
+// 5. Відправка замовлення в Telegram
 async function sendCartOrder(e) {
     e.preventDefault();
 
