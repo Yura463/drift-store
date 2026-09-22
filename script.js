@@ -125,7 +125,13 @@ function openModal(index) {
             addCartBtn.onclick = function() {
                 addToCart(item);
                 closeModal();
-                openCartModal();
+                
+                // Анімація кнопки кошика в шапці
+                const cartBtn = document.getElementById('openCartBtn');
+                if (cartBtn) {
+                    cartBtn.style.transform = 'scale(1.2)';
+                    setTimeout(() => cartBtn.style.transform = 'scale(1)', 200);
+                }
             };
         } else {
             addCartBtn.disabled = true;
