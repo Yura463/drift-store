@@ -96,7 +96,7 @@ document.getElementById('cartOrderForm').addEventListener('submit', async (e) =>
   const itemsList = cart.map((item, i) => `${i + 1}. *${item.title}* — ${item.qty} шт. (${item.price * item.qty} грн)`).join('\n');
   const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-  const message = `🚀 *НОВЕ ЗАМОВЛЕННЯ С З СAЙТУ!*\n\n` +
+  const message = `🚀 *НОВЕ ЗАМОВЛЕННЯ З САЙТУ!*\n\n` +
                   `👤 *Клієнт:* ${name}\n` +
                   `📞 *Телефон:* ${phone}\n` +
                   `📍 *Доставка:* ${city}\n\n` +
