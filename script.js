@@ -51,7 +51,7 @@ function handleData(json) {
     renderProducts();
 }
 
-// 2. Рендер товарів на сторінці
+// 2. Рендер товарів на сторінці (Кнопка відкриває модальне вікно товару)
 function renderProducts() {
     const container = document.getElementById('products-container');
     container.innerHTML = '';
@@ -75,7 +75,7 @@ function renderProducts() {
                     <h3 class="card-title">${item.name}</h3>
                     <div class="card-footer">
                         ${priceHTML}
-                        <button class="btn-card" onclick="event.stopPropagation(); quickAddToCart(${item.id})">У кошик 🛒</button>
+                        <button class="btn-card" onclick="event.stopPropagation(); openModal(${item.id})">Замовити</button>
                     </div>
                 </div>
             </div>
