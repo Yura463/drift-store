@@ -22,7 +22,7 @@
         <img src="./logo.jpg" class="bg-logo bg-logo-5" alt="">
     </div>
 
-    <!-- Шапка (прокручується разом з контентом) -->
+    <!-- Шапка -->
     <header class="header">
         <div class="container header-content">
             <a href="#" class="logo">
@@ -48,6 +48,25 @@
         </div>
     </section>
 
+    <!-- Переваги -->
+    <section class="container benefits-section">
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">🚀</div>
+            <h3>Швидка доставка</h3>
+            <p>Відправка Новою Поштою по всій Україні в день замовлення.</p>
+        </div>
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">🔥</div>
+            <h3>Топові моделі</h3>
+            <p>Перевірена якість дрифт-карів та деталізований дизайн.</p>
+        </div>
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">💬</div>
+            <h3>Консультація 24/7</h3>
+            <p>Завжди на зв'язку в Telegram та Viber для допомоги у виборі.</p>
+        </div>
+    </section>
+
     <!-- Основний каталог -->
     <main id="catalog" class="container catalog-section">
         <h2 class="section-title">Каталог товарів</h2>
@@ -55,6 +74,28 @@
             <div class="loading-state">Завантаження товарів...</div>
         </div>
     </main>
+
+    <!-- Секція відгуків -->
+    <section class="container reviews-section">
+        <h2 class="section-title">Відгуки покупців</h2>
+        <div class="reviews-grid">
+            <div class="review-card glass-panel">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"Машинка просто вогонь! Дрифтує чудово, акумулятора вистачає надовго. Дякую за швидку відправку!"</p>
+                <div class="review-author">— Олександр, м. Київ</div>
+            </div>
+            <div class="review-card glass-panel">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"Замовляв на подарунок брату. Якість суперова, комплектація повна. Окреме дякую за оперативність в Телеграм!"</p>
+                <div class="review-author">— Максим, м. Львів</div>
+            </div>
+            <div class="review-card glass-panel">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text">"Дуже задоволений покупкою. Все відповідає опису та відеоогляду. Рекомендую store!"</p>
+                <div class="review-author">— Андрій, м. Дніпро</div>
+            </div>
+        </div>
+    </section>
 
     <!-- Модальне вікно товару -->
     <div id="order-modal" class="modal">
@@ -87,6 +128,18 @@
 
                     <form id="order-form" class="order-form" onsubmit="sendOrder(event)">
                         <input type="hidden" id="order-product">
+                        
+                        <!-- Вибір кількості -->
+                        <div class="quantity-control">
+                            <label>Кількість:</label>
+                            <div class="qty-counter">
+                                <button type="button" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" id="cust-qty" value="1" min="1" readonly>
+                                <button type="button" onclick="changeQuantity(1)">+</button>
+                            </div>
+                            <div class="total-price-summary">Сума: <span id="total-price-val">0</span> грн</div>
+                        </div>
+
                         <input type="text" id="cust-name" placeholder="Ваше ім'я" required>
                         <input type="tel" id="cust-phone" placeholder="Номер телефону (+380...)" required>
                         <input type="text" id="cust-city" placeholder="Місто та № Нової Пошти" required>
@@ -98,6 +151,24 @@
 
             </div>
         </div>
+    </div>
+
+    <!-- Плаваюча кнопка зворотного зв'язку (Viber / Telegram / Дзвінок) -->
+    <div class="fab-wrapper">
+        <div class="fab-menu" id="fabMenu">
+            <a href="https://t.me/TinyDrift" target="_blank" class="fab-item tg" title="Telegram">
+                <span>Telegram</span> ⚡
+            </a>
+            <a href="viber://chat?number=%2B380982667919" class="fab-item viber" title="Viber">
+                <span>Viber</span> 💜
+            </a>
+            <a href="tel:+380982667919" class="fab-item phone" title="Зателефонувати">
+                <span>Зателефонувати</span> 📞
+            </a>
+        </div>
+        <button class="fab-main" onclick="toggleFab()">
+            💬
+        </button>
     </div>
 
     <!-- Футер -->
@@ -115,6 +186,7 @@
         let productsData = [];
         let currentPhotos = [];
         let currentPhotoIndex = 0;
+        let currentSinglePrice = 0;
 
         function handleData(json) {
             const rows = json.table.rows;
@@ -194,6 +266,8 @@
             const item = productsData.find(p => p.id === index);
             if (!item) return;
 
+            currentSinglePrice = parseInt(item.price) || 0;
+
             document.getElementById('modal-product-title').innerText = item.name;
             
             const modalPrice = document.getElementById('modal-product-price');
@@ -204,7 +278,11 @@
             }
 
             document.getElementById('modal-product-desc').innerText = item.desc;
-            document.getElementById('order-product').value = `${item.name} (${item.price} грн)`;
+            document.getElementById('order-product').value = item.name;
+
+            // Скидання кількості на 1
+            document.getElementById('cust-qty').value = 1;
+            updateTotalSum();
 
             const stockBadge = document.getElementById('modal-stock-badge');
             const submitBtn = document.getElementById('submit-btn');
@@ -257,6 +335,21 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function changeQuantity(delta) {
+            const qtyInput = document.getElementById('cust-qty');
+            let val = parseInt(qtyInput.value) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            qtyInput.value = val;
+            updateTotalSum();
+        }
+
+        function updateTotalSum() {
+            const qty = parseInt(document.getElementById('cust-qty').value) || 1;
+            const total = qty * currentSinglePrice;
+            document.getElementById('total-price-val').innerText = total;
+        }
+
         function updateSlider() {
             document.getElementById('main-slide-img').src = currentPhotos[currentPhotoIndex];
             const thumbs = document.querySelectorAll('.thumbs-list img');
@@ -284,14 +377,20 @@
             document.body.style.overflow = 'auto';
         }
 
+        function toggleFab() {
+            document.getElementById('fabMenu').classList.toggle('active');
+        }
+
         async function sendOrder(e) {
             e.preventDefault();
             const product = document.getElementById('order-product').value;
+            const qty = document.getElementById('cust-qty').value;
+            const totalPrice = document.getElementById('total-price-val').innerText;
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
             const city = document.getElementById('cust-city').value;
 
-            const text = `🛍️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
+            const text = `🛍️ НОВЕ ЗАМОВЛЕННЯ!\n\n📦 Товар: ${product}\n🔢 Кількість: ${qty} шт.\n💰 Сума: ${totalPrice} грн\n\n👤 Клієнт: ${name}\n📞 Тел: ${phone}\n📍 Доставка: ${city}`;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}`;
 
             try {
