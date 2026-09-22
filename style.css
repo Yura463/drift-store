@@ -241,26 +241,7 @@ body {
     align-items: center;
     padding: 20px;
 }
-.modal.active { display: flex; }
-.modal-card {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    max-width: 850px;
-    width: 100%;
-    position: relative;
-    padding: 25px;
-    color: #fff;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-.modal-close {
-    position: absolute;
-    top: 15px; right: 20px;
-    background: none; border: none;
-    color: #fff; font-size: 28px;
-    cursor: pointer; z-index: 10;
-}
+
 .modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
 
 .main-image-box { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: #000; }
