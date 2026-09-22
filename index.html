@@ -80,14 +80,13 @@
         </div>
     </main>
 
-    <!-- МОДАЛЬНЕ ВІКНО ТОВАРУ (Опис, фото, відео) -->
+    <!-- МОДАЛЬНЕ ВІКНО ТОВАРУ -->
     <div id="order-modal" class="modal">
         <div class="modal-overlay" onclick="closeModal()"></div>
-        <div class="modal-card glass-panel">
+        <div class="modal-card">
             <button class="modal-close" onclick="closeModal()">&times;</button>
             <div class="modal-body">
                 
-                <!-- ЗЛІВА: Галерея фото та відео -->
                 <div class="modal-media">
                     <div class="main-image-box">
                         <button class="nav-arrow prev" onclick="moveSlide(-1)">❮</button>
@@ -98,7 +97,6 @@
                     <div id="video-wrapper" class="video-box"></div>
                 </div>
 
-                <!-- СПРАВА: Деталі товару та єдина кнопка додавання в кошик -->
                 <div class="modal-info">
                     <div id="modal-stock-badge" class="badge"></div>
                     <h2 id="modal-product-title" class="modal-title"></h2>
@@ -121,7 +119,7 @@
     <!-- МОДАЛЬНЕ ВІКНО КОШИКА -->
     <div id="cartModal" class="modal">
         <div class="modal-overlay" onclick="closeCartModal()"></div>
-        <div class="modal-card glass-panel cart-modal-card">
+        <div class="modal-card cart-modal-card">
             <button class="modal-close" onclick="closeCartModal()">&times;</button>
             <h2 class="modal-title">Ваш кошик 🛒</h2>
 
