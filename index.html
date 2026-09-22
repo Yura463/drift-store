@@ -1,129 +1,169 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TINY DRIFT | Магазин RC моделей</title>
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TINY DRIFT | Магазин RC моделей та гаджетів</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Світлові плями на фоні -->
-  <div class="glow-bg glow-red"></div>
-  <div class="glow-bg glow-blue"></div>
-  <div class="bg-pattern">
-    <img src="./logo.jpg" class="bg-logo bg-logo-1" alt="">
-    <img src="./logo.jpg" class="bg-logo bg-logo-2" alt="">
-    <img src="./logo.jpg" class="bg-logo bg-logo-3" alt="">
-    <img src="./logo.jpg" class="bg-logo bg-logo-4" alt="">
-    <img src="./logo.jpg" class="bg-logo bg-logo-5" alt="">
-  </div>
-
-  <!-- Шапка -->
-  <header class="header">
-    <div class="container header-content">
-      <a href="#" class="logo">
-        <img src="./logo.jpg" alt="TinyDrift logo" class="logo-img">
-        <span class="logo-bold">TINY</span><span class="logo-accent">DRIFT</span>
-      </a>
-      <div class="header-actions">
-        <button class="cart-btn" id="openCartBtn">
-          <span class="cart-icon">🛒</span>
-          <span class="cart-text">Кошик</span>
-          <span class="cart-badge" id="cartBadge">0</span>
-        </button>
-        <a href="tel:+380982667919" class="phone-link">+380 98 266 7919</a>
-        <a href="https://t.me/TinyDrift" target="_blank" class="tg-link">Telegram</a>
-      </div>
+    <!-- Світлові плями та фонові логотипи -->
+    <div class="glow-bg glow-red"></div>
+    <div class="glow-bg glow-blue"></div>
+    <div class="bg-pattern">
+        <img src="./logo.jpg" class="bg-logo bg-logo-1" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-2" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-3" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-4" alt="">
+        <img src="./logo.jpg" class="bg-logo bg-logo-5" alt="">
     </div>
-  </header>
 
-  <!-- Головний банер -->
-  <section class="hero">
-    <div class="container hero-content">
-      <h1 class="hero-title">ТВІЙ РЕАЛЬНИЙ <span class="neon-text">RC DRIFT</span></h1>
-      <p class="hero-subtitle">Радіокеровані машинки 1:24 для драйву та заносів прямо у вітальні</p>
-      <a href="#catalog" class="btn btn-primary">Дивитись каталог</a>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <img src="./logo.jpg" alt="TinyDrift Logo" class="logo-img">
+                <span class="logo-bold">TINY</span><span class="logo-accent">DRIFT</span>
+            </a>
+            <div class="header-actions">
+                <button class="cart-btn" id="openCartBtn" onclick="openCartModal()">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-text">Кошик</span>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <a href="tel:+380982667919" class="phone-link">+380 98 266 7919</a>
+                <a href="https://t.me/TinyDrift" target="_blank" class="tg-link">Telegram ⚡</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Головний баннер -->
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-badge">ТОП RC МОДЕЛІ ТА ГАДЖЕТИ</span>
+            <h1 class="hero-title">TINY DRIFT STORE</h1>
+            <p class="hero-subtitle">Радіокеровані дрифт-машинки, міні-моделі та трендові девайси з доставкою по Україні!</p>
+            <div class="hero-buttons">
+                <a href="#catalog" class="btn-primary-hero">Переглянути каталог</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок переваг -->
+    <section class="container benefits-section">
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">🚀</div>
+            <h3>Швидка доставка</h3>
+            <p>Відправка Новою Поштою по всій Україні в день замовлення.</p>
+        </div>
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">🔥</div>
+            <h3>Топові моделі</h3>
+            <p>Перевірена якість дрифт-карів та деталізований дизайн.</p>
+        </div>
+        <div class="benefit-card glass-panel">
+            <div class="benefit-icon">💬</div>
+            <h3>Консультація 24/7</h3>
+            <p>Завжди на зв'язку в Telegram та Viber для допомоги у виборі.</p>
+        </div>
+    </section>
+
+    <!-- Основний каталог -->
+    <main id="catalog" class="container catalog-section">
+        <h2 class="section-title">Каталог товарів</h2>
+        <div id="products-container" class="products-grid">
+            <div class="loading-state">Завантаження товарів з бази...</div>
+        </div>
+    </main>
+
+    <!-- МОДАЛЬНЕ ВІКНО ТОВАРУ (Опис, фото, відео) -->
+    <div id="order-modal" class="modal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-card glass-panel">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body">
+                
+                <!-- ЗЛІВА: Галерея фото та відео -->
+                <div class="modal-media">
+                    <div class="main-image-box">
+                        <button class="nav-arrow prev" onclick="moveSlide(-1)">❮</button>
+                        <img id="main-slide-img" src="" alt="Товар">
+                        <button class="nav-arrow next" onclick="moveSlide(1)">❯</button>
+                    </div>
+                    <div id="gallery-thumbs" class="thumbs-list"></div>
+                    <div id="video-wrapper" class="video-box"></div>
+                </div>
+
+                <!-- СПРАВА: Деталі товару та кнопка "У кошик" -->
+                <div class="modal-info">
+                    <div id="modal-stock-badge" class="badge"></div>
+                    <h2 id="modal-product-title" class="modal-title"></h2>
+                    <div id="modal-product-price" class="modal-price"></div>
+
+                    <div class="desc-box">
+                        <h4>📋 Детальний опис:</h4>
+                        <p id="modal-product-desc"></p>
+                    </div>
+
+                    <div class="modal-actions-box">
+                        <button id="modal-add-cart-btn" class="btn-primary btn-block">Додати у кошик 🛒</button>
+                        <a href="https://t.me/TinyDrift" target="_blank" class="btn-secondary">Написати в Telegram (@TinyDrift)</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </section>
 
-  <!-- Каталог товарів -->
-  <main id="catalog" class="container catalog-section">
-    <h2 class="section-title">Каталог товарів</h2>
-    <div id="products-container" class="products-grid">
-      
-      <!-- Картка 1 -->
-      <div class="product-card">
-        <div class="badge">В наявності</div>
-        <img src="./logo.jpg" alt="RC Drift 1:24" class="product-img">
-        <h3 class="product-title">RC Drift 1:24 Гоночна</h3>
-        <p class="product-desc">Повний привід 4WD, комплекти змінних коліс, конуси для траси.</p>
-        <div class="product-footer">
-          <div class="price-block">
-            <span class="price">1200 грн</span>
-          </div>
-          <button class="btn btn-add-cart" onclick="addToCart('RC Drift 1:24 Гоночна', 1200, './logo.jpg')">
-            У кошик
-          </button>
+    <!-- МОДАЛЬНЕ ВІКНО КОШИКА -->
+    <div id="cartModal" class="modal">
+        <div class="modal-overlay" onclick="closeCartModal()"></div>
+        <div class="modal-card glass-panel cart-modal-card">
+            <button class="modal-close" onclick="closeCartModal()">&times;</button>
+            <h2 class="modal-title">Ваш кошик 🛒</h2>
+
+            <div id="cartItemsContainer" class="cart-items-list">
+                <!-- Товари додаються через JS -->
+            </div>
+
+            <div class="cart-total-block">
+                <span>Разом до сплати:</span>
+                <span id="cartTotalPrice" class="cart-total-price">0 грн</span>
+            </div>
+
+            <form id="cartOrderForm" class="order-form" onsubmit="sendCartOrder(event)">
+                <input type="text" id="cartClientName" placeholder="Ваше ім'я та прізвище" required>
+                <input type="tel" id="cartClientPhone" placeholder="Номер телефону (+380...)" required>
+                <input type="text" id="cartClientCity" placeholder="Місто та № Нової Пошти" required>
+                <button type="submit" id="cartSubmitBtn" class="btn-primary btn-block">Оформити замовлення</button>
+            </form>
         </div>
-      </div>
-
-      <!-- Картка 2 -->
-      <div class="product-card">
-        <div class="badge">В наявності</div>
-        <img src="./logo.jpg" alt="Машинка BMW" class="product-img">
-        <h3 class="product-title">Машинка BMW RC Drift</h3>
-        <p class="product-desc">Деталізований корпус, підсвічування фарами, додатковий акумулятор.</p>
-        <div class="product-footer">
-          <div class="price-block">
-            <span class="old-price">1200 грн</span>
-            <span class="price discount-price">600 грн</span>
-          </div>
-          <button class="btn btn-add-cart" onclick="addToCart('Машинка BMW RC Drift', 600, './logo.jpg')">
-            У кошик
-          </button>
-        </div>
-      </div>
-
     </div>
-  </main>
 
-  <!-- Модальне вікно кошика -->
-  <div class="modal-overlay" id="cartModal">
-    <div class="modal-box cart-modal-box">
-      <button class="close-btn" id="closeCartBtn">&times;</button>
-      <h2 class="modal-title">Ваш кошик</h2>
-
-      <div id="cartItemsContainer" class="cart-items-list">
-        <!-- Сюди товари додаються динамічно через JS -->
-      </div>
-
-      <div class="cart-total-block">
-        <span>Разом до сплати:</span>
-        <span id="cartTotalPrice" class="cart-total-price">0 грн</span>
-      </div>
-
-      <form id="cartOrderForm" class="order-form">
-        <div class="form-group">
-          <label for="cartClientName">Ім'я та Прізвище</label>
-          <input type="text" id="cartClientName" placeholder="Введіть ваші дані" required>
+    <!-- Плаваюча кнопка зв'язку (FAB) -->
+    <div class="fab-wrapper">
+        <div class="fab-menu" id="fabMenu">
+            <a href="https://t.me/TinyDrift" target="_blank" class="fab-item tg"><span>Telegram</span> ⚡</a>
+            <a href="viber://chat?number=%2B380982667919" class="fab-item viber"><span>Viber</span> 💜</a>
+            <a href="tel:+380982667919" class="fab-item phone"><span>Дзвінок</span> 📞</a>
         </div>
-        <div class="form-group">
-          <label for="cartClientPhone">Номер телефону</label>
-          <input type="tel" id="cartClientPhone" placeholder="+380..." required>
-        </div>
-        <div class="form-group">
-          <label for="cartClientCity">Місто та № відділення Нової Пошти</label>
-          <input type="text" id="cartClientCity" placeholder="Наприклад: Київ, НП №12" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Оформити замовлення</button>
-      </form>
+        <button class="fab-main" onclick="toggleFab()">💬</button>
     </div>
-  </div>
 
-  <script src="./script.js"></script>
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <span class="logo-bold">TINY <span class="logo-accent">DRIFT</span></span>
+            <p>Магазин радіокерованих моделей та трендових товарів</p>
+            <p><a href="https://t.me/TinyDrift" target="_blank" style="color: #00aaff; text-decoration: none;">t.me/TinyDrift</a> | +380 98 266 7919</p>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+    <script src="https://docs.google.com/spreadsheets/d/167qfhxHQyz7JOUv6m6WnOIo8VSXKnAhBxBiTUsUTr7w/gviz/tq?tqx=responseHandler:handleData"></script>
 </body>
 </html>
