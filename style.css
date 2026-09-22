@@ -298,3 +298,17 @@ body {
     .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
     .phone-link { display: none; }
 }
+/* Чіткі стилі для кнопки в модальному вікні */
+.modal-actions-box {
+    margin-top: 15px;
+    width: 100%;
+}
+
+#modal-add-cart-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 800;
+    border-radius: 10px;
+    cursor: pointer;
+}
