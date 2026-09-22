@@ -428,3 +428,111 @@ body {
     .modal-body { grid-template-columns: 1fr; gap: 15px; }
     .modal-title { font-size: 1.2rem; }
 }
+/* Стилізація відгуків під месенджери */
+.section-subtitle {
+  text-align: center;
+  color: #a0aec0;
+  margin-top: -10px;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.chat-review {
+  background: rgba(22, 27, 34, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0088cc, #005588);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.avatar-2 {
+  background: linear-gradient(135deg, #e040fb, #7c4dff);
+}
+
+.avatar-3 {
+  background: linear-gradient(135deg, #7360f2, #59267c);
+}
+
+.chat-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.chat-status {
+  color: #0088cc;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chat-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border-top-left-radius: 4px;
+  padding: 12px;
+  position: relative;
+}
+
+.chat-bubble p {
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.chat-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-meta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chat-time {
+  color: #718096;
+  font-size: 0.7rem;
+}
+
+.chat-check {
+  color: #0088cc;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
