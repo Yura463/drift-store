@@ -2,6 +2,7 @@ const TG_CHAT_ID = '1984152843';
 const TG_BOT_TOKEN = '8504501879:AAFNv-Bga_dZoOgCGYu5aEdbCjCb760zSG0';
 
 let productsData = [];
+let currentCategory = 'Всі товари';
 let currentPhotos = [];
 let currentPhotoIndex = 0;
 let cart = [];
@@ -33,6 +34,9 @@ function handleData(json) {
         const priceVal = row[1] && row[1].v !== null ? row[1].v : '0';
         const oldPriceVal = row[7] && row[7].v !== null ? row[7].v : null;
 
+        // Зчитування категорії з колонки I (індекс 8)
+        const categoryVal = row[8] && row[8].v ? String(row[8].v).trim() : 'Інше';
+
         const item = {
             id: i,
             name: row[0] && row[0].v !== null ? row[0].v : 'Товар',
@@ -42,21 +46,61 @@ function handleData(json) {
             photos: row[3] && row[3].v ? String(row[3].v).split(',') : [],
             desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
             video: row[5] && row[5].v ? String(row[5].v) : '',
-            available: isAvailable
+            available: isAvailable,
+            category: categoryVal
         };
 
         productsData.push(item);
     }
+
+    renderFilters();
     renderProducts();
 }
 
-// 2. Рендер товарів у каталозі
+// 2. Рендер кнопок Фільтрації
+function renderFilters() {
+    const filterContainer = document.getElementById('category-filters');
+    if (!filterContainer) return;
+
+    // Збираємо унікальні категорії
+    const categories = ['Всі товари'];
+    productsData.forEach(p => {
+        if (p.category && !categories.includes(p.category)) {
+            categories.push(p.category);
+        }
+    });
+
+    filterContainer.innerHTML = '';
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn ${cat === currentCategory ? 'active' : ''}`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+            currentCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts();
+        };
+        filterContainer.appendChild(btn);
+    });
+}
+
+// 3. Рендер товарів у каталозі з урахуванням фільтра
 function renderProducts() {
     const container = document.getElementById('products-container');
     if (!container) return;
     container.innerHTML = '';
 
-    productsData.forEach(item => {
+    const filtered = currentCategory === 'Всі товари' 
+        ? productsData 
+        : productsData.filter(p => p.category === currentCategory);
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="loading-state">Товари в цій категорії відсутні.</div>';
+        return;
+    }
+
+    filtered.forEach(item => {
         const badgeHTML = item.available 
             ? `<span class="badge in-stock">В наявності</span>`
             : `<span class="badge out-stock">Немає в наявності</span>`;
@@ -64,6 +108,10 @@ function renderProducts() {
         const priceHTML = item.oldPrice 
             ? `<div class="price"><span class="old-price">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span></div>`
             : `<div class="price">${item.price} <span>грн</span></div>`;
+
+        const btnHTML = item.available
+            ? `<button class="btn-card" onclick="event.stopPropagation(); openModal(${item.id})">Замовити</button>`
+            : `<button class="btn-card btn-disabled" disabled onclick="event.stopPropagation();">Немає в наявності</button>`;
 
         container.innerHTML += `
             <div class="product-card glass-panel" onclick="openModal(${item.id})">
@@ -75,7 +123,7 @@ function renderProducts() {
                     <h3 class="card-title">${item.name}</h3>
                     <div class="card-footer">
                         ${priceHTML}
-                        <button class="btn-card" onclick="event.stopPropagation(); openModal(${item.id})">Замовити</button>
+                        ${btnHTML}
                     </div>
                 </div>
             </div>
@@ -83,7 +131,7 @@ function renderProducts() {
     });
 }
 
-// 3. Відкриття модального вікна товару
+// 4. Відкриття модального вікна товару
 function openModal(index) {
     const item = productsData.find(p => p.id === index);
     if (!item) return;
@@ -122,19 +170,22 @@ function openModal(index) {
     if (addCartBtn) {
         if (item.available) {
             addCartBtn.disabled = false;
+            addCartBtn.innerText = 'Додати у кошик 🛒';
+            addCartBtn.className = 'btn-primary btn-block';
             addCartBtn.onclick = function() {
                 addToCart(item);
                 closeModal();
                 
-                // Анімація кнопки кошика в шапці
-                const cartBtn = document.getElementById('openCartBtn');
-                if (cartBtn) {
-                    cartBtn.style.transform = 'scale(1.2)';
-                    setTimeout(() => cartBtn.style.transform = 'scale(1)', 200);
-                }
+                // Анімація кнопок кошика
+                document.querySelectorAll('.cartBadge').forEach(badge => {
+                    badge.style.transform = 'scale(1.3)';
+                    setTimeout(() => badge.style.transform = 'scale(1)', 200);
+                });
             };
         } else {
             addCartBtn.disabled = true;
+            addCartBtn.innerText = 'Немає в наявності ❌';
+            addCartBtn.className = 'btn-primary btn-block btn-disabled';
         }
     }
 
@@ -212,7 +263,7 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// 4. Логіка Кошика
+// 5. Логіка Кошика
 function addToCart(item) {
     const existing = cart.find(c => c.id === item.id);
     if (existing) {
@@ -246,14 +297,14 @@ function removeCartItem(id) {
 }
 
 function updateCartUI() {
-    const cartBadge = document.getElementById('cartBadge');
+    const badges = document.querySelectorAll('.cartBadge');
     const container = document.getElementById('cartItemsContainer');
     const totalEl = document.getElementById('cartTotalPrice');
 
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-    if (cartBadge) cartBadge.innerText = totalQty;
+    badges.forEach(b => b.innerText = totalQty);
     if (totalEl) totalEl.innerText = `${totalPrice} грн`;
 
     if (!container) return;
@@ -300,7 +351,7 @@ function toggleFab() {
     if (fabMenu) fabMenu.classList.toggle('active');
 }
 
-// 5. Відправка замовлення в Telegram
+// 6. Відправка замовлення в Telegram
 async function sendCartOrder(e) {
     e.preventDefault();
 
