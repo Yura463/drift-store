@@ -33,7 +33,7 @@
                 <button class="cart-btn" id="openCartBtn" onclick="openCartModal()">
                     <span class="cart-icon">🛒</span>
                     <span class="cart-text">Кошик</span>
-                    <span class="cart-badge" id="cartBadge">0</span>
+                    <span class="cart-badge cartBadge">0</span>
                 </button>
                 <a href="tel:+380982667919" class="phone-link">+380 98 266 7919</a>
                 <a href="https://t.me/TinyDrift" target="_blank" class="tg-link">Telegram ⚡</a>
@@ -53,7 +53,21 @@
         </div>
     </section>
 
-    <!-- Блок переваг -->
+    <!-- Основний каталог -->
+    <main id="catalog" class="container catalog-section">
+        <h2 class="section-title">Каталог товарів</h2>
+        
+        <!-- Блок Фільтрів -->
+        <div id="category-filters" class="filters-container">
+            <!-- Кнопки фільтрів будуть додаватися автоматично через JS -->
+        </div>
+
+        <div id="products-container" class="products-grid">
+            <div class="loading-state">Завантаження товарів з бази...</div>
+        </div>
+    </main>
+
+    <!-- Блок переваг (Перенесено внизу під каталог) -->
     <section class="container benefits-section">
         <div class="benefit-card glass-panel">
             <div class="benefit-icon">🚀</div>
@@ -71,14 +85,6 @@
             <p>Завжди на зв'язку в Telegram та Viber для допомоги у виборі.</p>
         </div>
     </section>
-
-    <!-- Основний каталог -->
-    <main id="catalog" class="container catalog-section">
-        <h2 class="section-title">Каталог товарів</h2>
-        <div id="products-container" class="products-grid">
-            <div class="loading-state">Завантаження товарів з бази...</div>
-        </div>
-    </main>
 
     <!-- МОДАЛЬНЕ ВІКНО ТОВАРУ -->
     <div id="order-modal" class="modal">
@@ -141,8 +147,14 @@
         </div>
     </div>
 
-    <!-- Плаваюча кнопка зв'язку (FAB) -->
+    <!-- Плаваючі кнопки (FAB) -->
     <div class="fab-wrapper">
+        <!-- Плаваюча кнопка Кошика -->
+        <button class="fab-cart" onclick="openCartModal()">
+            🛒 <span class="cart-badge fab-badge cartBadge">0</span>
+        </button>
+
+        <!-- Плаваюча кнопка Зв'язку -->
         <div class="fab-menu" id="fabMenu">
             <a href="https://t.me/TinyDrift" target="_blank" class="fab-item tg"><span>Telegram</span> ⚡</a>
             <a href="viber://chat?number=%2B380982667919" class="fab-item viber"><span>Viber</span> 💜</a>
