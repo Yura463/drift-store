@@ -27,18 +27,6 @@ body {
 }
 .glow-red { top: -50px; left: -50px; background: rgba(239, 68, 68, 0.25); }
 .glow-blue { top: 300px; right: -50px; background: rgba(14, 165, 233, 0.25); }
-/* Фонові ефекти */
-.glow-bg {
-    position: fixed;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    filter: blur(120px);
-    z-index: -1;
-    pointer-events: none;
-}
-.glow-red { top: -50px; left: -50px; background: rgba(239, 68, 68, 0.25); }
-.glow-blue { top: 300px; right: -50px; background: rgba(14, 165, 233, 0.25); }
 
 .bg-pattern {
     position: absolute;
@@ -53,7 +41,7 @@ body {
 .bg-pattern img, .bg-logo {
     position: absolute;
     border-radius: 20%;
-    opacity: 0.03 !important; /* Ледь помітна прозорість, як на твоєму макеті */
+    opacity: 0.03 !important;
     filter: grayscale(100%);
     object-fit: contain;
     pointer-events: none;
@@ -63,7 +51,6 @@ body {
 .bg-logo-2 { top: 25%; right: 8%; width: 180px; transform: rotate(25deg); }
 .bg-logo-3 { top: 50%; left: 10%; width: 150px; transform: rotate(-30deg); }
 .bg-logo-4 { top: 70%; right: 12%; width: 130px; transform: rotate(15deg); }
-.bg-logo-5 { top: 88%; left: 7%; width: 160px; transform: rotate(-10deg); }
 .bg-logo-5 { top: 88%; left: 7%; width: 160px; transform: rotate(-10deg); }
 
 .container {
@@ -437,43 +424,41 @@ body {
 /* Мобільна галерея та зручні свайпи */
 .modal-image-container, 
 .modal-body img {
-  touch-action: pan-y;
-  user-select: none;
-  -webkit-user-select: none;
-  max-width: 100%;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    max-width: 100%;
 }
 
-/* Зручні стрелочки перемикання для пальця */
+/* Зручні стрілочки перемикання для пальця */
 .modal-nav-btn, .prev-btn, .next-btn {
-  width: 44px;
-  height: 44px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #ffffff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  cursor: pointer;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
 }
 
-/* Плавна горизонтальна прокрутка маленьких прев'ю-картинок під фото */
+/* Плавна горизонтальна прокрутка прев'ю */
 .modal-thumbnails, .thumbnails-container {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 8px 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 8px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
 
 .modal-thumbnails::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
-/* ----------------------------------------------------------- */
-/* ПОБНОЕКРАННИЙ ПЕРЕГЛЯД ФОТО (LIGHTBOX)                       */
-/* ----------------------------------------------------------- */
+/* ПОБНОЕКРАННИЙ ПЕРЕГЛЯД ФОТО (LIGHTBOX) */
 .fullscreen-modal {
     position: fixed;
     top: 0;
@@ -568,10 +553,5 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.fs-prev {
-    left: 15px;
-}
-
-.fs-next {
-    right: 15px;
-}
+.fs-prev { left: 15px; }
+.fs-next { right: 15px; }
