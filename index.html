@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TINY DRIFT | Магазин RC моделей та гаджетів</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +67,7 @@
         </div>
     </main>
 
-    <!-- Блок переваг (Перенесено внизу під каталог) -->
+    <!-- Блок переваг -->
     <section class="container benefits-section">
         <div class="benefit-card glass-panel">
             <div class="benefit-icon">🚀</div>
@@ -94,7 +94,7 @@
             <div class="modal-body">
                 
                 <div class="modal-media">
-                    <div class="main-image-box">
+                    <div class="main-image-box" id="main-image-box">
                         <button class="nav-arrow prev" onclick="moveSlide(-1)">❮</button>
                         <img id="main-slide-img" src="" alt="Товар">
                         <button class="nav-arrow next" onclick="moveSlide(1)">❯</button>
@@ -149,12 +149,10 @@
 
     <!-- Плаваючі кнопки (FAB) -->
     <div class="fab-wrapper">
-        <!-- Плаваюча кнопка Кошика -->
         <button class="fab-cart" onclick="openCartModal()">
             🛒 <span class="cart-badge fab-badge cartBadge">0</span>
         </button>
 
-        <!-- Плаваюча кнопка Зв'язку -->
         <div class="fab-menu" id="fabMenu">
             <a href="https://t.me/TinyDrift" target="_blank" class="fab-item tg"><span>Telegram</span> ⚡</a>
             <a href="viber://chat?number=%2B380982667919" class="fab-item viber"><span>Viber</span> 💜</a>
