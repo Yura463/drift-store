@@ -394,3 +394,38 @@ async function sendCartOrder(e) {
         alert('Помилка мережі при відправці замовлення.');
     }
 }
+// Підтримка свайпів пальцем для мобільної галереї
+(function initMobileGallerySwipes() {
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  document.addEventListener('touchstart', (e) => {
+    const modalImage = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img');
+    if (modalImage) {
+      touchStartX = e.changedTouches[0].screenX;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    const modalImage = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img');
+    if (modalImage) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 40;
+    const nextBtn = document.querySelector('.next-btn, .modal-next, .carousel-next, [onclick*="next"]');
+    const prevBtn = document.querySelector('.prev-btn, .modal-prev, .carousel-prev, [onclick*="prev"]');
+
+    if (touchEndX < touchStartX - swipeThreshold) {
+      // Свайп вліво -> наступна фотографія
+      if (nextBtn) nextBtn.click();
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+      // Свайп вправо -> попередня фотографія
+      if (prevBtn) prevBtn.click();
+    }
+  }
+})();
