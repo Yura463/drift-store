@@ -84,7 +84,7 @@ function renderFilters() {
     });
 }
 
-// 3. Рендер товарів у каталозі з сортуванням (немає в наявності — в кінці)
+// 3. Рендер товарів у каталозі з сортуванням
 function renderProducts() {
     const container = document.getElementById('products-container');
     if (!container) return;
@@ -94,7 +94,6 @@ function renderProducts() {
         ? [...productsData] 
         : productsData.filter(p => p.category === currentCategory);
 
-    // Сортування: спочатку ті, що В НАЯВНОСТІ, в кінці — ті, яких НЕМАЄ
     filtered.sort((a, b) => (b.available === true ? 1 : 0) - (a.available === true ? 1 : 0));
 
     if (filtered.length === 0) {
@@ -212,7 +211,6 @@ function openModal(index) {
         }
     }
 
-    // Додаємо клік на головне зображення для відкриття повноекранного режиму
     const mainImg = document.getElementById('main-slide-img');
     if (mainImg) {
         mainImg.style.cursor = 'zoom-in';
@@ -262,7 +260,6 @@ function moveSlide(direction) {
     if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
     updateSlider();
     
-    // Оновлюємо картинку у повноекранному модальному вікні, якщо воно відкрите
     const fsImg = document.getElementById('fullscreen-img');
     if (fsImg && currentPhotos[currentPhotoIndex]) {
         fsImg.src = currentPhotos[currentPhotoIndex];
@@ -280,9 +277,7 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// -----------------------------------------------------------
-// ПОБНОЕКРАННИЙ ПЕРЕГЛЯД ФОТО (LIGHTBOX)
-// -----------------------------------------------------------
+// 5. Повноекранний перегляд фото
 function openFullscreenImage(index) {
     if (!currentPhotos || currentPhotos.length === 0) return;
     currentPhotoIndex = index;
@@ -319,7 +314,7 @@ function closeFullscreen() {
     }
 }
 
-// 5. Логіка Кошика
+// 6. Логіка Кошика
 function addToCart(item) {
     const existing = cart.find(c => c.id === item.id);
     if (existing) {
@@ -407,7 +402,7 @@ function toggleFab() {
     if (fabMenu) fabMenu.classList.toggle('active');
 }
 
-// 6. Відправка замовлення в Telegram
+// 7. Відправка замовлення в Telegram
 async function sendCartOrder(e) {
     e.preventDefault();
 
@@ -451,7 +446,7 @@ async function sendCartOrder(e) {
     }
 }
 
-// Підтримка свайпів пальцем для мобільної галереї та повноекранного режиму
+// Свайпи для мобільних пристроїв
 (function initMobileGallerySwipes() {
   let touchStartX = 0;
   let touchEndX = 0;
