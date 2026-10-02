@@ -62,7 +62,6 @@ function renderFilters() {
     const filterContainer = document.getElementById('category-filters');
     if (!filterContainer) return;
 
-    // Збираємо унікальні категорії
     const categories = ['Всі товари'];
     productsData.forEach(p => {
         if (p.category && !categories.includes(p.category)) {
@@ -85,15 +84,18 @@ function renderFilters() {
     });
 }
 
-// 3. Рендер товарів у каталозі з урахуванням фільтра
+// 3. Рендер товарів у каталозі з сортуванням (немає в наявності — в кінці)
 function renderProducts() {
     const container = document.getElementById('products-container');
     if (!container) return;
     container.innerHTML = '';
 
-    const filtered = currentCategory === 'Всі товари' 
-        ? productsData 
+    let filtered = currentCategory === 'Всі товари' 
+        ? [...productsData] 
         : productsData.filter(p => p.category === currentCategory);
+
+    // Сортування: спочатку ті, що В НАЯВНОСТІ, в кінці — ті, яких НЕМАЄ
+    filtered.sort((a, b) => (b.available === true ? 1 : 0) - (a.available === true ? 1 : 0));
 
     if (filtered.length === 0) {
         container.innerHTML = '<div class="loading-state">Товари в цій категорії відсутні.</div>';
@@ -176,7 +178,6 @@ function openModal(index) {
                 addToCart(item);
                 closeModal();
                 
-                // Анімація кнопок кошика
                 document.querySelectorAll('.cartBadge').forEach(badge => {
                     badge.style.transform = 'scale(1.3)';
                     setTimeout(() => badge.style.transform = 'scale(1)', 200);
@@ -209,6 +210,16 @@ function openModal(index) {
                 thumbsContainer.innerHTML += `<img src="${photo}" class="${idx === 0 ? 'active' : ''}" onclick="event.stopPropagation(); setSlide(${idx})">`;
             });
         }
+    }
+
+    // Додаємо клік на головне зображення для відкриття повноекранного режиму
+    const mainImg = document.getElementById('main-slide-img');
+    if (mainImg) {
+        mainImg.style.cursor = 'zoom-in';
+        mainImg.onclick = function(e) {
+            e.stopPropagation();
+            openFullscreenImage(currentPhotoIndex);
+        };
     }
 
     // Відео
@@ -250,6 +261,12 @@ function moveSlide(direction) {
     if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
     if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
     updateSlider();
+    
+    // Оновлюємо картинку у повноекранному модальному вікні, якщо воно відкрите
+    const fsImg = document.getElementById('fullscreen-img');
+    if (fsImg && currentPhotos[currentPhotoIndex]) {
+        fsImg.src = currentPhotos[currentPhotoIndex];
+    }
 }
 
 function setSlide(index) {
@@ -261,6 +278,45 @@ function closeModal() {
     const modal = document.getElementById('order-modal');
     if (modal) modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+}
+
+// -----------------------------------------------------------
+// ПОБНОЕКРАННИЙ ПЕРЕГЛЯД ФОТО (LIGHTBOX)
+// -----------------------------------------------------------
+function openFullscreenImage(index) {
+    if (!currentPhotos || currentPhotos.length === 0) return;
+    currentPhotoIndex = index;
+
+    let fsModal = document.getElementById('fullscreen-modal');
+    if (!fsModal) {
+        fsModal = document.createElement('div');
+        fsModal.id = 'fullscreen-modal';
+        fsModal.className = 'fullscreen-modal';
+        fsModal.innerHTML = `
+            <div class="fs-overlay" onclick="closeFullscreen()"></div>
+            <button class="fs-close" onclick="closeFullscreen()">&times;</button>
+            <button class="fs-arrow fs-prev" onclick="moveSlide(-1)">❮</button>
+            <div class="fs-content">
+                <img id="fullscreen-img" src="" alt="Фото на весь екран">
+            </div>
+            <button class="fs-arrow fs-next" onclick="moveSlide(1)">❯</button>
+        `;
+        document.body.appendChild(fsModal);
+    }
+
+    const fsImg = document.getElementById('fullscreen-img');
+    if (fsImg) {
+        fsImg.src = currentPhotos[currentPhotoIndex];
+    }
+
+    fsModal.classList.add('active');
+}
+
+function closeFullscreen() {
+    const fsModal = document.getElementById('fullscreen-modal');
+    if (fsModal) {
+        fsModal.classList.remove('active');
+    }
 }
 
 // 5. Логіка Кошика
@@ -394,21 +450,22 @@ async function sendCartOrder(e) {
         alert('Помилка мережі при відправці замовлення.');
     }
 }
-// Підтримка свайпів пальцем для мобільної галереї
+
+// Підтримка свайпів пальцем для мобільної галереї та повноекранного режиму
 (function initMobileGallerySwipes() {
   let touchStartX = 0;
   let touchEndX = 0;
 
   document.addEventListener('touchstart', (e) => {
-    const modalImage = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img');
-    if (modalImage) {
+    const target = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img, #fullscreen-modal, .main-image-box');
+    if (target) {
       touchStartX = e.changedTouches[0].screenX;
     }
   }, { passive: true });
 
   document.addEventListener('touchend', (e) => {
-    const modalImage = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img');
-    if (modalImage) {
+    const target = e.target.closest('.modal-image-container, .modal-body img, #modal-main-img, #fullscreen-modal, .main-image-box');
+    if (target) {
       touchEndX = e.changedTouches[0].screenX;
       handleSwipe();
     }
@@ -416,16 +473,11 @@ async function sendCartOrder(e) {
 
   function handleSwipe() {
     const swipeThreshold = 40;
-    const nextBtn = document.querySelector('.next-btn, .modal-next, .carousel-next, [onclick*="next"]');
-    const prevBtn = document.querySelector('.prev-btn, .modal-prev, .carousel-prev, [onclick*="prev"]');
-
     if (touchEndX < touchStartX - swipeThreshold) {
-      // Свайп вліво -> наступна фотографія
-      if (nextBtn) nextBtn.click();
+      moveSlide(1);
     }
     if (touchEndX > touchStartX + swipeThreshold) {
-      // Свайп вправо -> попередня фотографія
-      if (prevBtn) prevBtn.click();
+      moveSlide(-1);
     }
   }
 })();
