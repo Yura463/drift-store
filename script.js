@@ -28,8 +28,16 @@ function handleData(json) {
         const firstVal = row[0] && row[0].v ? String(row[0].v).toLowerCase() : '';
         if (firstVal === 'name' || firstVal === 'назва') continue;
 
+        // Перевірка колонки J (індекс 9) — Показувати на сайті
+        const showVal = row[9] && row[9].v ? String(row[9].v).toLowerCase().trim() : 'так';
+        if (showVal === 'ні' || showVal === 'no' || showVal === 'false' || showVal === '0') {
+            continue; // Пропускаємо товар, якщо в колонці J стоїть "Ні"
+        }
+
+        // Перевірка колонки G (індекс 6) — Наявність / Передзамовлення
         const inStockVal = row[6] && row[6].v ? String(row[6].v).toLowerCase().trim() : 'так';
         const isAvailable = inStockVal === 'так' || inStockVal === 'yes' || inStockVal === '1' || inStockVal === '+';
+        const isPreorder = inStockVal === 'передзамовлення' || inStockVal === 'preorder' || (!isAvailable);
 
         const priceVal = row[1] && row[1].v !== null ? row[1].v : '0';
         const oldPriceVal = row[7] && row[7].v !== null ? row[7].v : null;
@@ -47,6 +55,7 @@ function handleData(json) {
             desc: row[4] && row[4].v ? row[4].v : 'Опис відсутній.',
             video: row[5] && row[5].v ? String(row[5].v) : '',
             available: isAvailable,
+            isPreorder: isPreorder,
             category: categoryVal
         };
 
@@ -94,6 +103,7 @@ function renderProducts() {
         ? [...productsData] 
         : productsData.filter(p => p.category === currentCategory);
 
+    // Сортування: спочатку в наявності, потім передзамовлення
     filtered.sort((a, b) => (b.available === true ? 1 : 0) - (a.available === true ? 1 : 0));
 
     if (filtered.length === 0) {
@@ -102,17 +112,20 @@ function renderProducts() {
     }
 
     filtered.forEach(item => {
-        const badgeHTML = item.available 
-            ? `<span class="badge in-stock">В наявності</span>`
-            : `<span class="badge out-stock">Немає в наявності</span>`;
+        let badgeHTML = '';
+        let btnHTML = '';
+
+        if (item.available) {
+            badgeHTML = `<span class="badge in-stock">В наявності</span>`;
+            btnHTML = `<button class="btn-card" onclick="event.stopPropagation(); openModal(${item.id})">Замовити</button>`;
+        } else {
+            badgeHTML = `<span class="badge preorder-badge">Передзамовлення</span>`;
+            btnHTML = `<button class="btn-card btn-preorder" onclick="event.stopPropagation(); openModal(${item.id})">Передзамовити</button>`;
+        }
 
         const priceHTML = item.oldPrice 
             ? `<div class="price"><span class="old-price">${item.oldPrice} грн</span> <span class="sale-price">${item.price} грн</span></div>`
             : `<div class="price">${item.price} <span>грн</span></div>`;
-
-        const btnHTML = item.available
-            ? `<button class="btn-card" onclick="event.stopPropagation(); openModal(${item.id})">Замовити</button>`
-            : `<button class="btn-card btn-disabled" disabled onclick="event.stopPropagation();">Немає в наявності</button>`;
 
         container.innerHTML += `
             <div class="product-card glass-panel" onclick="openModal(${item.id})">
@@ -156,37 +169,36 @@ function openModal(index) {
     if (descEl) descEl.innerText = item.desc;
 
     const stockBadge = document.getElementById('modal-stock-badge');
+    const preorderNotice = document.getElementById('modal-preorder-notice');
     const addCartBtn = document.getElementById('modal-add-cart-btn');
     
     if (stockBadge) {
         if (item.available) {
             stockBadge.className = 'badge in-stock';
             stockBadge.innerText = 'В наявності';
+            if (preorderNotice) preorderNotice.style.display = 'none';
         } else {
-            stockBadge.className = 'badge out-stock';
-            stockBadge.innerText = 'Немає в наявності';
+            stockBadge.className = 'badge preorder-badge';
+            stockBadge.innerText = 'Передзамовлення';
+            if (preorderNotice) preorderNotice.style.display = 'block';
         }
     }
 
     if (addCartBtn) {
+        addCartBtn.disabled = false;
         if (item.available) {
-            addCartBtn.disabled = false;
             addCartBtn.innerText = 'Додати у кошик 🛒';
             addCartBtn.className = 'btn-primary btn-block';
-            addCartBtn.onclick = function() {
-                addToCart(item);
-                closeModal();
-                
-                document.querySelectorAll('.cartBadge').forEach(badge => {
-                    badge.style.transform = 'scale(1.3)';
-                    setTimeout(() => badge.style.transform = 'scale(1)', 200);
-                });
-            };
         } else {
-            addCartBtn.disabled = true;
-            addCartBtn.innerText = 'Немає в наявності ❌';
-            addCartBtn.className = 'btn-primary btn-block btn-disabled';
+            addCartBtn.innerText = 'Оформити передзамовлення 📦';
+            addCartBtn.className = 'btn-primary btn-block btn-preorder';
         }
+
+        addCartBtn.onclick = function() {
+            addToCart(item);
+            closeModal();
+            openCartModal();
+        };
     }
 
     // Фото та слайдер
@@ -325,6 +337,7 @@ function addToCart(item) {
             name: item.name,
             price: parseInt(item.price) || 0,
             image: item.image,
+            available: item.available,
             qty: 1
         });
     }
@@ -367,11 +380,12 @@ function updateCartUI() {
 
     container.innerHTML = '';
     cart.forEach(item => {
+        const preorderTag = item.available ? '' : ' <span style="color:#f59e0b; font-size:0.75rem; font-weight:bold;">[ПЕРЕДЗАМОВЛЕННЯ]</span>';
         container.innerHTML += `
             <div class="cart-item">
                 <img src="${item.image}" alt="${item.name}">
                 <div class="cart-item-details">
-                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-title">${item.name}${preorderTag}</div>
                     <div class="cart-item-price">${item.price * item.qty} грн</div>
                 </div>
                 <div class="cart-qty-ctrl">
@@ -397,6 +411,18 @@ function closeCartModal() {
     document.body.style.overflow = 'auto';
 }
 
+function openAboutModal() {
+    const aboutModal = document.getElementById('aboutModal');
+    if (aboutModal) aboutModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAboutModal() {
+    const aboutModal = document.getElementById('aboutModal');
+    if (aboutModal) aboutModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
 function toggleFab() {
     const fabMenu = document.getElementById('fabMenu');
     if (fabMenu) fabMenu.classList.toggle('active');
@@ -417,14 +443,18 @@ async function sendCartOrder(e) {
 
     let itemsText = '';
     let totalSum = 0;
+    let hasPreorder = false;
 
     cart.forEach((item, idx) => {
         const itemTotal = item.price * item.qty;
         totalSum += itemTotal;
-        itemsText += `${idx + 1}. ${item.name} — ${item.qty} шт. (${itemTotal} грн)\n`;
+        const statusTag = item.available ? '' : ' ⚠️ [ПЕРЕДЗАМОВЛЕННЯ]';
+        if (!item.available) hasPreorder = true;
+        itemsText += `${idx + 1}. ${item.name}${statusTag} — ${item.qty} шт. (${itemTotal} грн)\n`;
     });
 
-    const message = `🛍️ НОВЕ ЗАМОВЛЕННЯ З КОШИКА!\n\n📦 *Товари:*\n${itemsText}\n💰 *Загальна сума:* ${totalSum} грн\n\n👤 *Клієнт:* ${name}\n📞 *Тел:* ${phone}\n📍 *Доставка:* ${city}`;
+    const headerText = hasPreorder ? '📦 НОВЕ ПЕРЕДЗАМОВЛЕННЯ / КОШИК!' : '🛍️ НОВЕ ЗАМОВЛЕННЯ З КОШИКА!';
+    const message = `${headerText}\n\n📦 *Товари:*\n${itemsText}\n💰 *Загальна сума:* ${totalSum} грн\n\n👤 *Клієнт:* ${name}\n📞 *Тел:* ${phone}\n📍 *Доставка:* ${city}`;
 
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(message)}`;
 
@@ -433,7 +463,7 @@ async function sendCartOrder(e) {
         const data = await response.json();
 
         if (data.ok) {
-            alert('Дякуємо! Ваше замовлення прийнято.');
+            alert(hasPreorder ? 'Дякуємо! Ваше передзамовлення прийнято. Наш менеджер незабаром зателефонує вам!' : 'Дякуємо! Ваше замовлення прийнято.');
             cart = [];
             updateCartUI();
             closeCartModal();
