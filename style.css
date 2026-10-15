@@ -446,3 +446,101 @@ body {
 
 /* Футер */
 .footer { text-align: center; padding: 25px 0; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 30px; font-size: 0.8rem; color: #64748b; }
+/* Бейджі та кнопки передзамовлення */
+.badge.preorder-badge {
+    background: #f59e0b;
+    color: #fff;
+}
+
+.btn-preorder {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
+}
+
+.btn-preorder:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5) !important;
+}
+
+.preorder-notice-box {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #fbbf24;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+/* Кнопка Про нас у шапці та Hero */
+.about-nav-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.about-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary-hero {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid rgba(0, 170, 255, 0.4);
+    background: rgba(0, 170, 255, 0.1);
+    color: #00aaff;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    margin-left: 8px;
+}
+
+.btn-secondary-hero:hover {
+    background: rgba(0, 170, 255, 0.25);
+}
+
+/* Модальне вікно Про нас */
+.about-modal-card {
+    max-width: 600px;
+}
+
+.about-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+}
+
+.about-content h3 {
+    color: #00aaff;
+    margin: 15px 0 8px;
+    font-size: 1rem;
+}
+
+.about-content ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.about-content li {
+    margin-bottom: 6px;
+}
+
+.about-banner-discount {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 10px;
+    padding: 12px;
+    color: #34d399;
+    margin: 12px 0;
+}
