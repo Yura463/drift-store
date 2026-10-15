@@ -39,6 +39,7 @@
                 <span class="logo-bold">TINY</span><span class="logo-accent">DRIFT</span>
             </a>
             <div class="header-actions">
+                <button class="about-nav-btn" onclick="openAboutModal()">Про нас ⭐</button>
                 <button class="cart-btn" id="openCartBtn" onclick="openCartModal()">
                     <span class="cart-icon">🛒</span>
                     <span class="cart-text">Кошик</span>
@@ -58,6 +59,7 @@
             <p class="hero-subtitle">Радіокеровані дрифт-машинки, міні-моделі та трендові девайси з доставкою по Україні!</p>
             <div class="hero-buttons">
                 <a href="#catalog" class="btn-primary-hero">Переглянути каталог</a>
+                <button onclick="openAboutModal()" class="btn-secondary-hero">Про магазин та знижки 🎁</button>
             </div>
         </div>
     </section>
@@ -115,6 +117,12 @@
                     <h2 id="modal-product-title" class="modal-title"></h2>
                     <div id="modal-product-price" class="modal-price"></div>
 
+                    <!-- Інформаційний блок передзамовлення -->
+                    <div id="modal-preorder-notice" class="preorder-notice-box" style="display: none;">
+                        📦 <strong>Оформлення передзамовлення:</strong><br>
+                        Залиште свої дані, і наш менеджер зателефонує вам для узгодження дати поставки та спеціальної знижки!
+                    </div>
+
                     <div class="desc-box">
                         <h4>📋 Детальний опис:</h4>
                         <p id="modal-product-desc"></p>
@@ -125,6 +133,34 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНЕ ВІКНО ПРО НАС -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-overlay" onclick="closeAboutModal()"></div>
+        <div class="modal-card about-modal-card">
+            <button class="modal-close" onclick="closeAboutModal()">&times;</button>
+            <h2 class="modal-title">Про магазин TINY DRIFT 🏎️</h2>
+            
+            <div class="about-content">
+                <p>Вітаємо у <strong>Tiny Drift</strong>! Ми — новий український магазин радіокерованих дрифт-машинок, моделей та аксесуарів для дрифту.</p>
+                
+                <div class="about-banner-discount">
+                    🎁 <strong>Приємний бонус для нових клієнтів!</strong><br>
+                    Оскільки ми новий магазин, надаємо додаткові знижки та подарунки до кожного замовлення або передзамовлення!
+                </div>
+
+                <h3>📦 Як ми працюємо та відправляємо:</h3>
+                <ul>
+                    <li><strong>Замовлення товарів у наявності:</strong> відправляємо Новою Поштою в той же день або на наступний ранок.</li>
+                    <li><strong>Передзамовлення:</strong> якщо товару немає в наявності, ви можете оформити передзамовлення. Ми зателефонуємо вам, уточнимо точні терміни доставки та надамо персональну знижку!</li>
+                    <li><strong>Оплата:</strong> післяплатою (накладеним платежем) при отриманні на пошті або на картку.</li>
+                </ul>
+
+                <h3>📞 Наші контакти:</h3>
+                <p>З будь-яких питань пишіть у Telegram <a href="https://t.me/TinyDrift" target="_blank" style="color:#00aaff;">@TinyDrift</a> або телефонуйте за номером <strong>+380 98 266 7919</strong>.</p>
             </div>
         </div>
     </div>
